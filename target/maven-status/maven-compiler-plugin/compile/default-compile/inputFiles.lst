@@ -1,0 +1,10 @@
+C:\Users\grazi\challenge\comunicacao_api\src\main\java\com\luizalebs\comunicacao_api\business\converter\ComunicacaoConverter.java
+C:\Users\grazi\challenge\comunicacao_api\src\main\java\com\luizalebs\comunicacao_api\ComunicacaoApiApplication.java
+C:\Users\grazi\challenge\comunicacao_api\src\main\java\com\luizalebs\comunicacao_api\api\dto\ComunicacaoOutDTO.java
+C:\Users\grazi\challenge\comunicacao_api\src\main\java\com\luizalebs\comunicacao_api\infraestructure\entities\ComunicacaoEntity.java
+C:\Users\grazi\challenge\comunicacao_api\src\main\java\com\luizalebs\comunicacao_api\infraestructure\repositories\ComunicacaoRepository.java
+C:\Users\grazi\challenge\comunicacao_api\src\main\java\com\luizalebs\comunicacao_api\infraestructure\enums\ModoEnvioEnum.java
+C:\Users\grazi\challenge\comunicacao_api\src\main\java\com\luizalebs\comunicacao_api\infraestructure\enums\StatusEnvioEnum.java
+C:\Users\grazi\challenge\comunicacao_api\src\main\java\com\luizalebs\comunicacao_api\api\dto\ComunicacaoInDTO.java
+C:\Users\grazi\challenge\comunicacao_api\src\main\java\com\luizalebs\comunicacao_api\business\service\ComunicacaoService.java
+C:\Users\grazi\challenge\comunicacao_api\src\main\java\com\luizalebs\comunicacao_api\api\ComunicacaoController.java
