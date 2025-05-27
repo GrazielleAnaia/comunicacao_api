@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2025-05-23T15:36:08-0400",
+    date = "2025-05-27T12:00:58-0400",
     comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.12 (Oracle Corporation)"
 )
 @Component
@@ -22,8 +22,10 @@ public class ComunicacaoMapperImpl implements ComunicacaoMapper {
 
         ComunicacaoOutDTO.ComunicacaoOutDTOBuilder comunicacaoOutDTO = ComunicacaoOutDTO.builder();
 
-        comunicacaoOutDTO.nomeDestinatario( comunicacaoEntity.getNomeDestinatario() );
+        comunicacaoOutDTO.dataHoraEnvio( comunicacaoEntity.getDataHoraEnvio() );
         comunicacaoOutDTO.emailDestinatario( comunicacaoEntity.getEmailDestinatario() );
+        comunicacaoOutDTO.id( comunicacaoEntity.getId() );
+        comunicacaoOutDTO.nomeDestinatario( comunicacaoEntity.getNomeDestinatario() );
         comunicacaoOutDTO.telefoneDestinatario( comunicacaoEntity.getTelefoneDestinatario() );
         comunicacaoOutDTO.mensagem( comunicacaoEntity.getMensagem() );
         comunicacaoOutDTO.modoDeEnvio( comunicacaoEntity.getModoDeEnvio() );
@@ -40,6 +42,7 @@ public class ComunicacaoMapperImpl implements ComunicacaoMapper {
 
         ComunicacaoEntity.ComunicacaoEntityBuilder comunicacaoEntity = ComunicacaoEntity.builder();
 
+        comunicacaoEntity.dataHoraEnvio( comunicacaoInDTO.getDataHoraEnvio() );
         comunicacaoEntity.nomeDestinatario( comunicacaoInDTO.getNomeDestinatario() );
         comunicacaoEntity.emailDestinatario( comunicacaoInDTO.getEmailDestinatario() );
         comunicacaoEntity.telefoneDestinatario( comunicacaoInDTO.getTelefoneDestinatario() );
