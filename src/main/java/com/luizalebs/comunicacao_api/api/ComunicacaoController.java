@@ -35,7 +35,7 @@ public class ComunicacaoController {
     @ApiResponse(responseCode = "403", description = "email do destinario nao encontrado")
     @ApiResponse(responseCode = "500", description = "erro de servidor")
     @ApiResponse(responseCode = "401", description = "credenciais invalidas")
-    public ResponseEntity<ComunicacaoOutDTO> buscarStatus(@RequestParam String emailDestinatario) {
+    public ResponseEntity<ComunicacaoOutDTO> buscarStatus(@RequestParam ("emailDestinatario")String emailDestinatario) {
         return ResponseEntity.ok(service.buscarStatusComunicacao(emailDestinatario));
     }
 
@@ -48,4 +48,23 @@ public class ComunicacaoController {
     public ResponseEntity<ComunicacaoOutDTO> cancelarStatus(@RequestParam String emailDestinatario) {
         return ResponseEntity.ok(service.alterarStatusComunicacao(emailDestinatario));
     }
-}
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletarPorId(@PathVariable("id") Long id) {
+        service.deletarComunicacao(id);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping()
+    public ResponseEntity<ComunicacaoOutDTO> updateComunicacao(@RequestBody ComunicacaoInDTO dto,
+                                                               @RequestParam("id") Long id) {
+        return ResponseEntity.ok(service.updateDadosComunicacao(dto, id));
+    }
+
+    @PostMapping("/email")
+    public ResponseEntity<Void>enviaEmailComunicacao(@RequestBody ComunicacaoInDTO dto) {
+        service.implementaEmail(dto);
+        return ResponseEntity.ok().build();
+    }
+
+        }
