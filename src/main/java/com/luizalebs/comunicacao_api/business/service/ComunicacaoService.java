@@ -8,7 +8,9 @@ import com.luizalebs.comunicacao_api.infraestructure.client.EmailClient;
 import com.luizalebs.comunicacao_api.infraestructure.entities.ComunicacaoEntity;
 import com.luizalebs.comunicacao_api.infraestructure.enums.ModoEnvioEnum;
 import com.luizalebs.comunicacao_api.infraestructure.enums.StatusEnvioEnum;
-import com.luizalebs.comunicacao_api.infraestructure.exceptions.IllegalArgumentException;
+import com.luizalebs.comunicacao_api.infraestructure.exceptions.ConflictException;
+import com.luizalebs.comunicacao_api.infraestructure.exceptions.EmailException;
+import com.luizalebs.comunicacao_api.infraestructure.exceptions.MissingArgumentException;
 import com.luizalebs.comunicacao_api.infraestructure.exceptions.ResourceNotFoundException;
 import com.luizalebs.comunicacao_api.infraestructure.repositories.ComunicacaoRepository;
 import lombok.RequiredArgsConstructor;
@@ -31,16 +33,21 @@ public class ComunicacaoService {
     private final EmailClient emailClient;
 
     public ComunicacaoOutDTO agendarComunicacao(ComunicacaoInDTO dto) {
-        if (Objects.isNull(dto)) {
-            throw new IllegalArgumentException("Dados da comunicacao sao obrigatorios");
+        try{
+            if (Objects.isNull(dto)) {
+                throw new MissingArgumentException("Dados da comunicacao sao obrigatorios");
+            }
+            dto.setStatusEnvio(StatusEnvioEnum.PENDENTE);
+            dto.setModoDeEnvio(ModoEnvioEnum.EMAIL);
+            dto.setDataHoraEnvio(Date.from(Instant.now()));
+            ComunicacaoEntity entity = mapper.paraComunicacaoEntity(dto);
+            repository.save(entity);
+            ComunicacaoOutDTO outDTO = mapper.paraComunicacaoOutDTO(entity);
+            return outDTO;
+        } catch (ConflictException e) {
+            throw new ConflictException("Dados de comunicacao ja existentes", e);
         }
-        dto.setStatusEnvio(StatusEnvioEnum.PENDENTE);
-dto.setModoDeEnvio(ModoEnvioEnum.EMAIL);
-        dto.setDataHoraEnvio(Date.from(Instant.now()));
-        ComunicacaoEntity entity = mapper.paraComunicacaoEntity(dto);
-        repository.save(entity);
-        ComunicacaoOutDTO outDTO = mapper.paraComunicacaoOutDTO(entity);
-        return outDTO;
+
     }
 
     public ComunicacaoOutDTO buscarStatusComunicacao(String emailDestinatario) {
@@ -76,10 +83,14 @@ dto.setModoDeEnvio(ModoEnvioEnum.EMAIL);
     return mapper.paraComunicacaoOutDTO(repository.save(entity1));
     }
 
+    public void implementaEmailComunicacao(ComunicacaoInDTO comunicacaoInDTO){
+        try{
+            emailClient.enviaEmail(comunicacaoInDTO);
+            comunicacaoInDTO.setStatusEnvio(StatusEnvioEnum.ENVIADO);
+        } catch (EmailException e) {
+            throw new EmailException("Erro ao enviar email" + e);
+        }
 
-    public void implementaEmail(ComunicacaoInDTO comunicacaoInDTO){
-        emailClient.enviaEmail(comunicacaoInDTO);
-        comunicacaoInDTO.setStatusEnvio(StatusEnvioEnum.ENVIADO);
 
     }
 

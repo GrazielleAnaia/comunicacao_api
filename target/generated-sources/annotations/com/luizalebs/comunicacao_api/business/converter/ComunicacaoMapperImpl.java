@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2025-05-27T12:00:58-0400",
+    date = "2025-05-28T12:05:34-0400",
     comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.12 (Oracle Corporation)"
 )
 @Component
@@ -23,6 +23,7 @@ public class ComunicacaoMapperImpl implements ComunicacaoMapper {
         ComunicacaoOutDTO.ComunicacaoOutDTOBuilder comunicacaoOutDTO = ComunicacaoOutDTO.builder();
 
         comunicacaoOutDTO.dataHoraEnvio( comunicacaoEntity.getDataHoraEnvio() );
+        comunicacaoOutDTO.dataHoraEvento( comunicacaoEntity.getDataHoraEvento() );
         comunicacaoOutDTO.emailDestinatario( comunicacaoEntity.getEmailDestinatario() );
         comunicacaoOutDTO.id( comunicacaoEntity.getId() );
         comunicacaoOutDTO.nomeDestinatario( comunicacaoEntity.getNomeDestinatario() );
@@ -43,6 +44,7 @@ public class ComunicacaoMapperImpl implements ComunicacaoMapper {
         ComunicacaoEntity.ComunicacaoEntityBuilder comunicacaoEntity = ComunicacaoEntity.builder();
 
         comunicacaoEntity.dataHoraEnvio( comunicacaoInDTO.getDataHoraEnvio() );
+        comunicacaoEntity.dataHoraEvento( comunicacaoInDTO.getDataHoraEvento() );
         comunicacaoEntity.nomeDestinatario( comunicacaoInDTO.getNomeDestinatario() );
         comunicacaoEntity.emailDestinatario( comunicacaoInDTO.getEmailDestinatario() );
         comunicacaoEntity.telefoneDestinatario( comunicacaoInDTO.getTelefoneDestinatario() );
