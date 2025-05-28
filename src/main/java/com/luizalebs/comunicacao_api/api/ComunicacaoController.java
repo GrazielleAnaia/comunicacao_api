@@ -21,7 +21,7 @@ public class ComunicacaoController {
 
 
     @PostMapping("/agendar")
-    @Operation(summary = "Agenda comunicacao com o cliente", description = "agenda comunicacao com o cliente")
+    @Operation(summary = "Agendar comunicacao com o cliente", description = "agenda comunicacao com o cliente")
     @ApiResponse(responseCode = "201", description = "mensagem agendada com sucesso")
     @ApiResponse(responseCode = "409", description = "cliente ja cadastrado")
     @ApiResponse(responseCode = "500", description = "erro de servidor")
@@ -30,7 +30,7 @@ public class ComunicacaoController {
     }
 
     @GetMapping()
-    @Operation(summary = "Busca o status da comunicacao por email", description = "busca status da comunicacao por email")
+    @Operation(summary = "Buscar o status da comunicacao por email", description = "busca status da comunicacao por email")
     @ApiResponse(responseCode = "200", description = "mensagem encontrada com sucesso")
     @ApiResponse(responseCode = "404", description = "email do destinario nao encontrado")
     @ApiResponse(responseCode = "500", description = "erro de servidor")
@@ -39,7 +39,7 @@ public class ComunicacaoController {
     }
 
     @PatchMapping("/cancelar")
-    @Operation(summary = "Altera o status da comunicacao por email", description = "altera status da comunicacao por email")
+    @Operation(summary = "Alterar o status da comunicacao por email", description = "altera status da comunicacao por email")
     @ApiResponse(responseCode = "200", description = "mensagem alterada com sucesso")
     @ApiResponse(responseCode = "404", description = "email do destinario nao encontrado")
     @ApiResponse(responseCode = "500", description = "erro de servidor")
@@ -48,7 +48,7 @@ public class ComunicacaoController {
     }
 
     @DeleteMapping("/{id}")
-    @Operation(summary = "Deleta mensagem de comunicacao por id", description = "deleta mensagem por id")
+    @Operation(summary = "Deletar mensagem de comunicacao por id", description = "deleta mensagem por id")
     @ApiResponse(responseCode = "204", description = "mensagem deletada com sucesso")
     @ApiResponse(responseCode = "404", description = "id de mensagem nao encontrado")
     @ApiResponse(responseCode = "500", description = "erro de servidor")
@@ -58,7 +58,7 @@ public class ComunicacaoController {
     }
 
     @PutMapping()
-    @Operation(summary = "Atualiza dados da comunicacao", description = "atualiza dados da comunicacao por id")
+    @Operation(summary = "Atualizar dados da comunicacao", description = "atualiza dados da comunicacao por id")
     @ApiResponse(responseCode = "200", description = "mensagem atualizada com sucesso")
     @ApiResponse(responseCode = "404", description = "email do destinario nao encontrado")
     @ApiResponse(responseCode = "500", description = "erro de servidor")
@@ -68,6 +68,10 @@ public class ComunicacaoController {
     }
 
     @PostMapping("/email")
+    @Operation(summary = "Enviar email de comunicacao", description = "envia email de comunicacao usando api externa")
+    @ApiResponse(responseCode = "200", description = "mensagem enviada com sucesso")
+    @ApiResponse(responseCode = "500", description = "erro de servidor")
+    @ApiResponse(responseCode = "503", description = "servico nao disponivel")
     public ResponseEntity<Void>enviarEmailComunicacao(@RequestBody ComunicacaoInDTO dto) {
         service.implementaEmailComunicacao(dto);
         return ResponseEntity.ok().build();
