@@ -22,7 +22,7 @@ public class ComunicacaoController {
 
     @PostMapping("/agendar")
     @Operation(summary = "Agenda comunicacao com o cliente", description = "agenda comunicacao com o cliente")
-    @ApiResponse(responseCode = "200", description = "mensagem agendada com sucesso")
+    @ApiResponse(responseCode = "201", description = "mensagem agendada com sucesso")
     @ApiResponse(responseCode = "409", description = "cliente ja cadastrado")
     @ApiResponse(responseCode = "500", description = "erro de servidor")
     public ResponseEntity<ComunicacaoOutDTO> agendar(@RequestBody ComunicacaoInDTO dto)  {
@@ -30,40 +30,46 @@ public class ComunicacaoController {
     }
 
     @GetMapping()
-    @Operation(summary = "Busca o status da comunicacao por email ", description = "busca status da comunicacao por email")
+    @Operation(summary = "Busca o status da comunicacao por email", description = "busca status da comunicacao por email")
     @ApiResponse(responseCode = "200", description = "mensagem encontrada com sucesso")
-    @ApiResponse(responseCode = "403", description = "email do destinario nao encontrado")
+    @ApiResponse(responseCode = "404", description = "email do destinario nao encontrado")
     @ApiResponse(responseCode = "500", description = "erro de servidor")
-    @ApiResponse(responseCode = "401", description = "credenciais invalidas")
     public ResponseEntity<ComunicacaoOutDTO> buscarStatus(@RequestParam ("emailDestinatario")String emailDestinatario) {
         return ResponseEntity.ok(service.buscarStatusComunicacao(emailDestinatario));
     }
 
     @PatchMapping("/cancelar")
-    @Operation(summary = "Altera o status da comunicacao por email ", description = "altera status da comunicacao por email")
+    @Operation(summary = "Altera o status da comunicacao por email", description = "altera status da comunicacao por email")
     @ApiResponse(responseCode = "200", description = "mensagem alterada com sucesso")
-    @ApiResponse(responseCode = "403", description = "email do destinario nao encontrado")
-    @ApiResponse(responseCode = "401", description = "credenciais invalidas")
+    @ApiResponse(responseCode = "404", description = "email do destinario nao encontrado")
     @ApiResponse(responseCode = "500", description = "erro de servidor")
     public ResponseEntity<ComunicacaoOutDTO> cancelarStatus(@RequestParam String emailDestinatario) {
         return ResponseEntity.ok(service.alterarStatusComunicacao(emailDestinatario));
     }
 
     @DeleteMapping("/{id}")
+    @Operation(summary = "Deleta mensagem de comunicacao por id", description = "deleta mensagem por id")
+    @ApiResponse(responseCode = "204", description = "mensagem deletada com sucesso")
+    @ApiResponse(responseCode = "404", description = "id de mensagem nao encontrado")
+    @ApiResponse(responseCode = "500", description = "erro de servidor")
     public ResponseEntity<Void> deletarPorId(@PathVariable("id") Long id) {
         service.deletarComunicacao(id);
         return ResponseEntity.ok().build();
     }
 
     @PutMapping()
+    @Operation(summary = "Atualiza dados da comunicacao", description = "atualiza dados da comunicacao por id")
+    @ApiResponse(responseCode = "200", description = "mensagem atualizada com sucesso")
+    @ApiResponse(responseCode = "404", description = "email do destinario nao encontrado")
+    @ApiResponse(responseCode = "500", description = "erro de servidor")
     public ResponseEntity<ComunicacaoOutDTO> updateComunicacao(@RequestBody ComunicacaoInDTO dto,
                                                                @RequestParam("id") Long id) {
         return ResponseEntity.ok(service.updateDadosComunicacao(dto, id));
     }
 
     @PostMapping("/email")
-    public ResponseEntity<Void>enviaEmailComunicacao(@RequestBody ComunicacaoInDTO dto) {
-        service.implementaEmail(dto);
+    public ResponseEntity<Void>enviarEmailComunicacao(@RequestBody ComunicacaoInDTO dto) {
+        service.implementaEmailComunicacao(dto);
         return ResponseEntity.ok().build();
     }
 

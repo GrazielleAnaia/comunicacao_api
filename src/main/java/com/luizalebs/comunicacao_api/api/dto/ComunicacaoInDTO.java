@@ -19,6 +19,9 @@ public class ComunicacaoInDTO implements Serializable {
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private Date dataHoraEnvio;
+
+@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date dataHoraEvento;
     private String nomeDestinatario;
     private String emailDestinatario;
     private String telefoneDestinatario;

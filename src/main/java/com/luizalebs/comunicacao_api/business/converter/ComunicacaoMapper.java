@@ -10,6 +10,7 @@ import org.mapstruct.Mapping;
 
 public interface ComunicacaoMapper {
     @Mapping(source = "dataHoraEnvio", target = "dataHoraEnvio")
+    @Mapping(source = "dataHoraEvento", target = "dataHoraEvento")
     @Mapping(source = "emailDestinatario", target = "emailDestinatario")
     @Mapping(source = "id", target = "id")
     ComunicacaoOutDTO paraComunicacaoOutDTO(ComunicacaoEntity comunicacaoEntity);
