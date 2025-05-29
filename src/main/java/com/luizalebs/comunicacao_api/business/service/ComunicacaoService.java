@@ -28,7 +28,7 @@ public class ComunicacaoService {
     //private final ComunicacaoConverter converter;
     private final ComunicacaoMapper mapper;
 
-    private final ComunicacaoUpdateMapper updateMapper;
+        private final ComunicacaoUpdateMapper updateMapper;
 
     private final EmailClient emailClient;
 
@@ -79,8 +79,8 @@ public class ComunicacaoService {
                 "nao encontrado: " + id));
         comunicacaoInDTO.setStatusEnvio(StatusEnvioEnum.ALTERADO);
         //Fazer metodo se a pessoa quiser alterar a forma de envio
-    ComunicacaoEntity entity1 = updateMapper.updateComunicacao(comunicacaoInDTO, entity);
-    return mapper.paraComunicacaoOutDTO(repository.save(entity1));
+        ComunicacaoEntity entity1 = updateMapper.updateComunicacao(comunicacaoInDTO, entity);
+        return mapper.paraComunicacaoOutDTO(repository.save(entity1));
     }
 
     public void implementaEmailComunicacao(ComunicacaoInDTO comunicacaoInDTO){

@@ -16,6 +16,8 @@ import java.util.Date;
 @ToString
 @Builder
 @Entity
+
+@EqualsAndHashCode
 @Table(name = "COMUNICACAO")
 public class ComunicacaoEntity implements Serializable {
 
