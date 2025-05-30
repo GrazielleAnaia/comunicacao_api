@@ -28,7 +28,7 @@ public class ComunicacaoService {
     //private final ComunicacaoConverter converter;
     private final ComunicacaoMapper mapper;
 
-        private final ComunicacaoUpdateMapper updateMapper;
+    private final ComunicacaoUpdateMapper updateMapper;
 
     private final EmailClient emailClient;
 

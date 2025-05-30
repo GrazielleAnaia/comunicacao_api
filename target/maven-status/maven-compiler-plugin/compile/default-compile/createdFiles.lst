@@ -6,7 +6,6 @@ com\luizalebs\comunicacao_api\business\converter\ComunicacaoConverter.class
 com\luizalebs\comunicacao_api\infraestructure\repositories\ComunicacaoRepository.class
 com\luizalebs\comunicacao_api\api\dto\ComunicacaoOutDTO$ComunicacaoOutDTOBuilder.class
 com\luizalebs\comunicacao_api\api\dto\ComunicacaoOutDTO.class
-com\luizalebs\comunicacao_api\business\service\ComunicacaoService.class
 com\luizalebs\comunicacao_api\ComunicacaoApiApplication.class
 com\luizalebs\comunicacao_api\infraestructure\entities\ComunicacaoEntity.class
 com\luizalebs\comunicacao_api\infraestructure\enums\ModoEnvioEnum.class
@@ -19,6 +18,7 @@ com\luizalebs\comunicacao_api\business\converter\ComunicacaoMapper.class
 com\luizalebs\comunicacao_api\infraestructure\exceptions\MissingArgumentException.class
 com\luizalebs\comunicacao_api\infraestructure\config\FeignError.class
 com\luizalebs\comunicacao_api\infraestructure\entities\ComunicacaoEntity$ComunicacaoEntityBuilder.class
+com\luizalebs\comunicacao_api\business\ComunicacaoService.class
 com\luizalebs\comunicacao_api\infraestructure\exceptions\EmailException.class
 com\luizalebs\comunicacao_api\business\converter\ComunicacaoMapperImpl.class
 com\luizalebs\comunicacao_api\infraestructure\enums\StatusEnvioEnum.class

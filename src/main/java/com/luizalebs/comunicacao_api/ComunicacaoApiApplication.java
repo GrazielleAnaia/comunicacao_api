@@ -5,10 +5,13 @@ import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.cloud.openfeign.FeignAutoConfiguration;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
 @SpringBootApplication
 @EnableFeignClients
 @ImportAutoConfiguration({FeignAutoConfiguration.class})
+
+
 public class ComunicacaoApiApplication {
 
     public static void main(String[] args) {

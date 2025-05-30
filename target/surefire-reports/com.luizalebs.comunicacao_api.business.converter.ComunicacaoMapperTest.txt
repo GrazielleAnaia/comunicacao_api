@@ -1,8 +1,0 @@
--------------------------------------------------------------------------------
-Test set: com.luizalebs.comunicacao_api.business.converter.ComunicacaoMapperTest
--------------------------------------------------------------------------------
-Tests run: 1, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.472 s <<< FAILURE! - in com.luizalebs.comunicacao_api.business.converter.ComunicacaoMapperTest
-converteParaComunicacaoOutDTO  Time elapsed: 0.464 s  <<< FAILURE!
-org.opentest4j.AssertionFailedError: expected: com.luizalebs.comunicacao_api.api.dto.ComunicacaoOutDTO@607fbe09<ComunicacaoOutDTO(id=123, dataHoraEnvio=Mon Jun 29 00:00:00 EDT 3925, dataHoraEvento=Wed Jul 29 00:00:00 EDT 3925, nomeDestinatario=Customer C, emailDestinatario=mensagem@email.com, telefoneDestinatario=303-568-5178, mensagem=mensagem, modoDeEnvio=EMAIL, statusEnvio=PENDENTE)> but was: com.luizalebs.comunicacao_api.api.dto.ComunicacaoOutDTO@60a2630a<ComunicacaoOutDTO(id=123, dataHoraEnvio=Mon Jun 29 00:00:00 EDT 3925, dataHoraEvento=Wed Jul 29 00:00:00 EDT 3925, nomeDestinatario=Customer C, emailDestinatario=mensagem@email.com, telefoneDestinatario=303-568-5178, mensagem=mensagem, modoDeEnvio=EMAIL, statusEnvio=PENDENTE)>
-	at com.luizalebs.comunicacao_api.business.converter.ComunicacaoMapperTest.converteParaComunicacaoOutDTO(ComunicacaoMapperTest.java:55)
-
