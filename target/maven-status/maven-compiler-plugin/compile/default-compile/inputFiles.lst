@@ -1,5 +1,6 @@
 C:\Users\grazi\challenge\comunicacao_api\src\main\java\com\luizalebs\comunicacao_api\infraestructure\config\FeignError.java
 C:\Users\grazi\challenge\comunicacao_api\src\main\java\com\luizalebs\comunicacao_api\infraestructure\exceptions\EmailException.java
+C:\Users\grazi\challenge\comunicacao_api\src\main\java\com\luizalebs\comunicacao_api\business\ComunicacaoService.java
 C:\Users\grazi\challenge\comunicacao_api\src\main\java\com\luizalebs\comunicacao_api\business\converter\ComunicacaoConverter.java
 C:\Users\grazi\challenge\comunicacao_api\src\main\java\com\luizalebs\comunicacao_api\infraestructure\config\FeignConfig.java
 C:\Users\grazi\challenge\comunicacao_api\src\main\java\com\luizalebs\comunicacao_api\api\GlobalExceptionHandler.java
@@ -8,7 +9,6 @@ C:\Users\grazi\challenge\comunicacao_api\src\main\java\com\luizalebs\comunicacao
 C:\Users\grazi\challenge\comunicacao_api\src\main\java\com\luizalebs\comunicacao_api\infraestructure\enums\StatusEnvioEnum.java
 C:\Users\grazi\challenge\comunicacao_api\src\main\java\com\luizalebs\comunicacao_api\infraestructure\exceptions\ConflictException.java
 C:\Users\grazi\challenge\comunicacao_api\src\main\java\com\luizalebs\comunicacao_api\infraestructure\client\EmailClient.java
-C:\Users\grazi\challenge\comunicacao_api\src\main\java\com\luizalebs\comunicacao_api\business\service\ComunicacaoService.java
 C:\Users\grazi\challenge\comunicacao_api\src\main\java\com\luizalebs\comunicacao_api\business\converter\ComunicacaoUpdateMapper.java
 C:\Users\grazi\challenge\comunicacao_api\src\main\java\com\luizalebs\comunicacao_api\infraestructure\exceptions\BusinessException.java
 C:\Users\grazi\challenge\comunicacao_api\src\main\java\com\luizalebs\comunicacao_api\infraestructure\exceptions\MissingArgumentException.java

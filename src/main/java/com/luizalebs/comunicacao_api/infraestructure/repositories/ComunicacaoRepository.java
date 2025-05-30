@@ -5,5 +5,5 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface ComunicacaoRepository extends CrudRepository<ComunicacaoEntity, Long> {
 
-    ComunicacaoEntity findByEmailDestinatario(String nomeDestinatario);
+    ComunicacaoEntity findByEmailDestinatario(String emailDestinatario);
 }

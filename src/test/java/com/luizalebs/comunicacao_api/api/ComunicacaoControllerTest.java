@@ -1,4 +1,4 @@
-package com.luizalebs.comunicacao_api.api.dto;
+package com.luizalebs.comunicacao_api.api;
 
 
 import org.junit.jupiter.api.extension.ExtendWith;
