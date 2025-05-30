@@ -1,4 +1,4 @@
-package com.luizalebs.comunicacao_api.business.service;
+package com.luizalebs.comunicacao_api.business;
 
 import com.luizalebs.comunicacao_api.api.dto.ComunicacaoInDTO;
 import com.luizalebs.comunicacao_api.api.dto.ComunicacaoOutDTO;
