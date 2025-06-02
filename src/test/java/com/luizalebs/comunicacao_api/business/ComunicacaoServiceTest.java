@@ -10,6 +10,8 @@ import com.luizalebs.comunicacao_api.infraestructure.client.EmailClient;
 import com.luizalebs.comunicacao_api.infraestructure.entities.ComunicacaoEntity;
 import com.luizalebs.comunicacao_api.infraestructure.enums.ModoEnvioEnum;
 import com.luizalebs.comunicacao_api.infraestructure.enums.StatusEnvioEnum;
+import com.luizalebs.comunicacao_api.infraestructure.exceptions.ConflictException;
+import com.luizalebs.comunicacao_api.infraestructure.exceptions.MissingArgumentException;
 import com.luizalebs.comunicacao_api.infraestructure.exceptions.ResourceNotFoundException;
 import com.luizalebs.comunicacao_api.infraestructure.repositories.ComunicacaoRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -27,6 +29,7 @@ import static com.luizalebs.comunicacao_api.infraestructure.enums.StatusEnvioEnu
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
@@ -61,8 +64,6 @@ public class ComunicacaoServiceTest {
 
     @BeforeEach
     public void setup() {
-
-
         comunicacaoEntity = ComunicacaoEntity.builder().id(123L).dataHoraEvento(DATA_HORA_EVENTO).dataHoraEnvio(DATA_HORA_ENVIO).emailDestinatario(
                         "mensagem@email.com").modoDeEnvio(MODO_DE_ENVIO).statusEnvio(STATUS_ENVIO).telefoneDestinatario("303-568-5178")
                 .nomeDestinatario("Customer C").mensagem("mensagem").build();
@@ -84,20 +85,64 @@ public class ComunicacaoServiceTest {
     }
 
     @Test
-    public void deveGerarExcecaoDeletarIdNaoEncontrado() {
-
-
-        when(comunicacaoRepository.findById(id)).thenThrow(new ResourceNotFoundException("Id mensagem nao encontrado: "));
-        ResourceNotFoundException exception = assertThrows(ResourceNotFoundException.class, () -> comunicacaoService.deletarComunicacao(id));
-        assertThat(exception, notNullValue());
-        assertThat(exception.getMessage(), is("Id mensagem nao encontrado: "));
-        //assertThat(exception.getCause().getMessage(), is("Id nao encontrado"));
-       // assertThat(exception.getCause().getClass(), is(ResourceNotFoundException.class));
-
-        verify(comunicacaoRepository).findById(id);
+    public void deletarComunicacaoPorEmail_testeThrownException() {
+        when(comunicacaoRepository.findByEmailDestinatario(null)).thenThrow(new ResourceNotFoundException("Excecao"));
+        ResourceNotFoundException exc = assertThrows(ResourceNotFoundException.class, () -> comunicacaoService.deletarComunicacaoPorEmail(null));
+        assertThat(exc, notNullValue());
+        assertThat(exc.getMessage(), is("Email nao encontrado"));
+        assertThat(exc.getCause().getMessage(), is("Excecao"));
+        assertThat(exc.getCause().getClass(), is (ResourceNotFoundException.class));
+        verify(comunicacaoRepository).findByEmailDestinatario(null);
         verifyNoMoreInteractions(comunicacaoRepository);
-
     }
+
+    @Test
+    public void deveGerarExcecaoDeletarIdNaoEncontrado$Test() {
+        ResourceNotFoundException exc = new ResourceNotFoundException("Id mensagem nao encontrado: " + id );
+        Throwable throwable = assertThrows(ResourceNotFoundException.class, () -> comunicacaoService.deletarComunicacao(id));
+        assertEquals("Id mensagem nao encontrado: " + id, throwable.getMessage());
+    }
+
+    @Test
+    public void deveAgendarComunicacao() {
+        when(comunicacaoMapper.paraComunicacaoEntity(comunicacaoInDTO)).thenReturn(comunicacaoEntity);
+        when(comunicacaoRepository.save(comunicacaoEntity)).thenReturn(comunicacaoEntity);
+        when(comunicacaoMapper.paraComunicacaoOutDTO(comunicacaoEntity)).thenReturn(comunicacaoOutDTO);
+        ComunicacaoOutDTO outDTO = comunicacaoService.agendarComunicacao(comunicacaoInDTO);
+        assertEquals(comunicacaoOutDTO, outDTO);
+        verify(comunicacaoRepository).save(comunicacaoEntity);
+        verify(comunicacaoMapper).paraComunicacaoEntity(comunicacaoInDTO);
+        verify(comunicacaoMapper).paraComunicacaoOutDTO(comunicacaoEntity);
+        verifyNoMoreInteractions(comunicacaoRepository, comunicacaoMapper);
+    }
+
+    @Test
+    public void deveNaoAgendarComunicacaoSeDadosNull() {
+        java.lang.IllegalArgumentException exception = assertThrows(java.lang.IllegalArgumentException.class, () ->
+                comunicacaoService.agendarComunicacao2(null));
+        assertThat(exception.getMessage(), is("Dados da comunicacao sao obrigatorios"));
+        assertThat(exception.getCause().getClass(), is(IllegalArgumentException.class));
+        assertThat(exception, notNullValue());
+        assertThat(exception.getCause().getMessage(), is("Dados da comunicacao sao obrigatorios"));
+        verifyNoInteractions(comunicacaoMapper, comunicacaoRepository);
+    }
+
+    @Test
+    public void deveGerarExcecaoSeDadosComunicacao2JaExistentes() {
+        when(comunicacaoMapper.paraComunicacaoEntity(comunicacaoInDTO)).thenReturn(comunicacaoEntity);
+        when(comunicacaoRepository.save(comunicacaoEntity)).thenThrow(new ConflictException("Excecao"));
+        ConflictException exception = assertThrows(ConflictException.class, () -> comunicacaoService.agendarComunicacao2(comunicacaoInDTO));
+        assertThat(exception, notNullValue());
+        assertThat(exception.getMessage(), is("Dados de comunicacao ja existentes"));
+        assertThat(exception.getCause().getClass(), is(ConflictException.class));
+        assertThat(exception.getCause().getMessage(), is("Excecao"));
+        verify(comunicacaoMapper).paraComunicacaoEntity(comunicacaoInDTO);
+        verify(comunicacaoRepository).save(comunicacaoEntity);
+        verifyNoMoreInteractions(comunicacaoMapper, comunicacaoRepository);
+    }
+
+
+
 
 
 }
