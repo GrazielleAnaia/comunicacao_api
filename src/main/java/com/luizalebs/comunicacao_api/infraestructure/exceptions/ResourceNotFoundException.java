@@ -1,6 +1,9 @@
 package com.luizalebs.comunicacao_api.infraestructure.exceptions;
 
 
+import jakarta.transaction.Transactional;
+import lombok.ToString;
+
 
 public class ResourceNotFoundException extends RuntimeException {
 

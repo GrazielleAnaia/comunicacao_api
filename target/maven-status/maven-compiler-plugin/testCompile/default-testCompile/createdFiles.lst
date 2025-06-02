@@ -1,0 +1,8 @@
+com\luizalebs\comunicacao_api\api\dto\ComunicacaoInDTOFixture.class
+com\luizalebs\comunicacao_api\ComunicacaoApiApplicationTests.class
+com\luizalebs\comunicacao_api\business\ComunicacaoServiceTest.class
+com\luizalebs\comunicacao_api\infrastructure\exceptions\ResourceNotFoundExceptionTest.class
+com\luizalebs\comunicacao_api\api\dto\ComunicacaoOutDTOFixture.class
+com\luizalebs\comunicacao_api\api\ComunicacaoControllerTest.class
+com\luizalebs\comunicacao_api\business\converter\ComunicacaoMapperTest.class
+com\luizalebs\comunicacao_api\business\converter\ComunicacaoUpdateMapperTest.class
