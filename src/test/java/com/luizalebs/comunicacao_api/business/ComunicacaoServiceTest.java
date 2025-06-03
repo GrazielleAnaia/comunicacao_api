@@ -11,9 +11,9 @@ import com.luizalebs.comunicacao_api.infraestructure.entities.ComunicacaoEntity;
 import com.luizalebs.comunicacao_api.infraestructure.enums.ModoEnvioEnum;
 import com.luizalebs.comunicacao_api.infraestructure.enums.StatusEnvioEnum;
 import com.luizalebs.comunicacao_api.infraestructure.exceptions.ConflictException;
-import com.luizalebs.comunicacao_api.infraestructure.exceptions.MissingArgumentException;
 import com.luizalebs.comunicacao_api.infraestructure.exceptions.ResourceNotFoundException;
 import com.luizalebs.comunicacao_api.infraestructure.repositories.ComunicacaoRepository;
+import org.hibernate.annotations.Comment;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -64,6 +64,7 @@ public class ComunicacaoServiceTest {
 
     @BeforeEach
     public void setup() {
+
         comunicacaoEntity = ComunicacaoEntity.builder().id(123L).dataHoraEvento(DATA_HORA_EVENTO).dataHoraEnvio(DATA_HORA_ENVIO).emailDestinatario(
                         "mensagem@email.com").modoDeEnvio(MODO_DE_ENVIO).statusEnvio(STATUS_ENVIO).telefoneDestinatario("303-568-5178")
                 .nomeDestinatario("Customer C").mensagem("mensagem").build();
@@ -126,7 +127,7 @@ public class ComunicacaoServiceTest {
         assertThat(exception.getCause().getMessage(), is("Dados da comunicacao sao obrigatorios"));
         verifyNoInteractions(comunicacaoMapper, comunicacaoRepository);
     }
-
+    @Comment("Metodo agendarComunicacao2()")
     @Test
     public void deveGerarExcecaoSeDadosComunicacao2JaExistentes() {
         when(comunicacaoMapper.paraComunicacaoEntity(comunicacaoInDTO)).thenReturn(comunicacaoEntity);
@@ -139,6 +140,67 @@ public class ComunicacaoServiceTest {
         verify(comunicacaoMapper).paraComunicacaoEntity(comunicacaoInDTO);
         verify(comunicacaoRepository).save(comunicacaoEntity);
         verifyNoMoreInteractions(comunicacaoMapper, comunicacaoRepository);
+    }
+
+    @Test
+    public void deveBuscarStatusComunicacaoComSucesso() {
+        when(comunicacaoRepository.findByEmailDestinatario(email)).thenReturn(comunicacaoEntity);
+        when(comunicacaoMapper.paraComunicacaoOutDTO(comunicacaoEntity)).thenReturn(comunicacaoOutDTO);
+        ComunicacaoOutDTO outDTO = comunicacaoService.buscarStatusComunicacao(email);
+        assertEquals(comunicacaoOutDTO, outDTO);
+        verify(comunicacaoRepository).findByEmailDestinatario(email);
+        verify(comunicacaoMapper).paraComunicacaoOutDTO(comunicacaoEntity);
+        verifyNoMoreInteractions(comunicacaoRepository, comunicacaoMapper);
+    }
+
+    @Test
+    public void deveGerarExcecaoAoBuscarStatusComunicacaoSeEmailNull() {
+        when(comunicacaoRepository.findByEmailDestinatario(anyString())).thenAnswer(invocation -> {
+                    String str = invocation.getArgument(0);
+                    if (str.equals("Email nao encontrado")) {
+                        throw new ResourceNotFoundException("Email nao encontrado");
+                    }
+                    return str.isEmpty();
+                });
+        assertThrows(ResourceNotFoundException.class, () ->
+                comunicacaoService.buscarStatusComunicacao("Email nao encontrado"));
+    }
+
+    @Test
+    public void deveGerarExcecaoSeEmailNullAoBuscarStatusComunicacao2() {
+        when(comunicacaoRepository.findByEmailDestinatario(null)).thenThrow(new ResourceNotFoundException("Excecao"));
+        ResourceNotFoundException exc = assertThrows(ResourceNotFoundException.class, ()->
+                comunicacaoService.buscarStatusComunicacao2(null));
+        assertThat(exc, notNullValue());
+        assertThat(exc.getMessage(), is("Email nao encontrado"));
+        assertThat(exc.getCause().getMessage(), is("Excecao"));
+        assertThat(exc.getCause().getClass(), is(ResourceNotFoundException.class));
+        verify(comunicacaoRepository).findByEmailDestinatario(null);
+        verifyNoMoreInteractions(comunicacaoRepository);
+        verifyNoInteractions(comunicacaoMapper);
+    }
+
+    @Test
+    public void deveGerarExcecaoAoBuscarStatusNaoEncontrado() {
+        ResourceNotFoundException exc = new ResourceNotFoundException("Email nao encontrado: " + null);
+        Throwable throwable = assertThrows(ResourceNotFoundException.class, () -> comunicacaoService.buscarStatusComunicacao(null));
+        assertEquals("Email nao encontrado: " + null, throwable.getMessage());
+    }
+
+
+@Test
+    public void alteraStatusComunicacao_testeThrownException() {
+    ResourceNotFoundException spy = spy(new ResourceNotFoundException("Email nao encontrado"));
+    ResourceNotFoundException mock = mock(ResourceNotFoundException.class);
+    when(comunicacaoRepository.findByEmailDestinatario(null)).thenThrow(spy);
+    ResourceNotFoundException exc = assertThrows(ResourceNotFoundException.class, () ->
+            comunicacaoService.alterarStatusComunicacao(null));
+    assertThat(exc, notNullValue());
+    assertThat(exc.getMessage(), is("Email nao encontrado"));
+    assertThat(exc.getCause().getMessage(), is("Email nao encontrado"));
+    assertThat(exc.getCause().getClass(), is (ResourceNotFoundException.class));
+    verify(comunicacaoRepository).findByEmailDestinatario(null);
+    verifyNoMoreInteractions(comunicacaoRepository);
     }
 
 

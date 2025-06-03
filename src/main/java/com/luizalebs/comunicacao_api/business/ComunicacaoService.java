@@ -73,20 +73,30 @@ public class ComunicacaoService {
 
     public ComunicacaoOutDTO buscarStatusComunicacao(String emailDestinatario) {
         ComunicacaoEntity entity = repository.findByEmailDestinatario(emailDestinatario);
-        if (Objects.isNull(entity)) {
-            throw new ResourceNotFoundException("Email nao encontrado: " + emailDestinatario);
+        if (Objects.isNull(entity.getEmailDestinatario())) {
+            throw new ResourceNotFoundException("Email nao encontrado" + emailDestinatario);
         }
         return mapper.paraComunicacaoOutDTO(entity);
     }
 
+    public ComunicacaoOutDTO buscarStatusComunicacao2(String emailDestinatario) {
+        try{
+            ComunicacaoEntity entity = repository.findByEmailDestinatario(emailDestinatario);
+            return mapper.paraComunicacaoOutDTO(entity);
+        } catch(ResourceNotFoundException e) {
+            throw new ResourceNotFoundException("Email nao encontrado", e);
+        }
+    }
+
+
     public ComunicacaoOutDTO alterarStatusComunicacao(String emailDestinatario) {
         ComunicacaoEntity entity = repository.findByEmailDestinatario(emailDestinatario);
         if (Objects.isNull(entity)) {
-            throw new ResourceNotFoundException("Email nao encontrado: " + emailDestinatario);
+            throw new ResourceNotFoundException("Email nao encontrado" + emailDestinatario);
         }
-        entity.setStatusEnvio(StatusEnvioEnum.CANCELADO);
+        entity.setStatusEnvio(StatusEnvioEnum.ALTERADO);
         repository.save(entity);
-        return (mapper.paraComunicacaoOutDTO(entity));
+        return mapper.paraComunicacaoOutDTO(entity);
     }
 
     public void deletarComunicacao(Long id) {

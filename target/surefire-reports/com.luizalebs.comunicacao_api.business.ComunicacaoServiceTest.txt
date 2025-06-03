@@ -1,11 +1,39 @@
--------------------------------------------------------------------------------
-Test set: com.luizalebs.comunicacao_api.business.ComunicacaoServiceTest
--------------------------------------------------------------------------------
-Tests run: 5, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.786 s <<< FAILURE! - in com.luizalebs.comunicacao_api.business.ComunicacaoServiceTest
-deveNaoAgendarComunicacaoSeDadosNull  Time elapsed: 0.007 s  <<< FAILURE!
-org.opentest4j.AssertionFailedError: Unexpected exception type thrown, expected: <com.luizalebs.comunicacao_api.infraestructure.exceptions.MissingArgumentException> but was: <java.lang.IllegalArgumentException>
-	at com.luizalebs.comunicacao_api.business.ComunicacaoServiceTest.deveNaoAgendarComunicacaoSeDadosNull(ComunicacaoServiceTest.java:121)
-Caused by: java.lang.IllegalArgumentException: Dados da comunicacao sao obrigatorios
-	at com.luizalebs.comunicacao_api.business.ComunicacaoServiceTest.lambda$deveNaoAgendarComunicacaoSeDadosNull$2(ComunicacaoServiceTest.java:122)
-	at com.luizalebs.comunicacao_api.business.ComunicacaoServiceTest.deveNaoAgendarComunicacaoSeDadosNull(ComunicacaoServiceTest.java:121)
+ public ComunicacaoOutDTO alterarStatusComunicacao(String emailDestinatario) {
+        ComunicacaoEntity entity = repository.findByEmailDestinatario(emailDestinatario);
+        if (Objects.isNull(entity)) {
+            throw new ResourceNotFoundException("Email nao encontrado" + emailDestinatario);
+        }
+        entity.setStatusEnvio(StatusEnvioEnum.ALTERADO);
+        repository.save(entity);
+        return mapper.paraComunicacaoOutDTO(entity);
+    }
 
+
+@Test
+    public void alteraStatusComunicacao_testeThrownException() {
+    ResourceNotFoundException spy = spy(new ResourceNotFoundException("Email nao encontrado"));
+    ResourceNotFoundException mock = mock(ResourceNotFoundException.class);
+    when(comunicacaoRepository.findByEmailDestinatario(null)).thenThrow(spy);
+    ResourceNotFoundException exc = assertThrows(ResourceNotFoundException.class, () ->
+            comunicacaoService.alterarStatusComunicacao(null));
+    assertThat(exc, notNullValue());
+    assertThat(exc.getMessage(), is("Email nao encontrado"));
+    assertThat(exc.getCause().getMessage(), is("Email nao encontrado"));
+    assertThat(exc.getCause().getClass(), is (ResourceNotFoundException.class));
+    verify(comunicacaoRepository).findByEmailDestinatario(null);
+    verifyNoMoreInteractions(comunicacaoRepository);
+    }
+
+
+
+"C:\Program Files\Java\jdk-17\bin\java.exe" 
+java.lang.NullPointerException: Cannot invoke "java.lang.Throwable.getMessage()" because the return value of "com.luizalebs.comunicacao_api.infraestructure.exceptions.ResourceNotFoundException.getCause()" is null
+
+	at com.luizalebs.comunicacao_api.business.ComunicacaoServiceTest.alteraStatusComunicacao_testeThrownException(ComunicacaoServiceTest.java:201)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at org.junit.platform.commons.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:727)
+	at org.junit.jupiter.engine.execution.MethodInvocation.proceed(MethodInvocation.java:60)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain$ValidatingInvocation.proceed(InvocationInterceptorChain.java:131)
