@@ -8,23 +8,23 @@ import com.luizalebs.comunicacao_api.infraestructure.client.EmailClient;
 import com.luizalebs.comunicacao_api.infraestructure.entities.ComunicacaoEntity;
 import com.luizalebs.comunicacao_api.infraestructure.enums.ModoEnvioEnum;
 import com.luizalebs.comunicacao_api.infraestructure.enums.StatusEnvioEnum;
-import com.luizalebs.comunicacao_api.infraestructure.exceptions.ConflictException;
+import com.luizalebs.comunicacao_api.infraestructure.exceptions.BusinessException;
 import com.luizalebs.comunicacao_api.infraestructure.exceptions.EmailException;
-import com.luizalebs.comunicacao_api.infraestructure.exceptions.MissingArgumentException;
 import com.luizalebs.comunicacao_api.infraestructure.exceptions.ResourceNotFoundException;
 import com.luizalebs.comunicacao_api.infraestructure.repositories.ComunicacaoRepository;
 import lombok.RequiredArgsConstructor;
-import net.bytebuddy.pool.TypePool;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.util.Date;
 import java.util.Objects;
 
+import static java.util.Objects.isNull;
 import static org.springframework.util.Assert.notNull;
 
 @Service
 @RequiredArgsConstructor
+
 public class ComunicacaoService {
 
     private final ComunicacaoRepository repository;
@@ -35,45 +35,59 @@ public class ComunicacaoService {
 
     private final EmailClient emailClient;
 
+
+
+    //method agendarComunicacaoProjetoOriginal()
+    public ComunicacaoOutDTO agendarComunicacaoProjetoOriginal(ComunicacaoInDTO dto) {
+        if (Objects.isNull(dto)) {
+            throw new RuntimeException();
+        }
+            dto.setStatusEnvio(StatusEnvioEnum.PENDENTE);
+            ComunicacaoEntity entity = mapper.paraComunicacaoEntity(dto);
+            repository.save(entity);
+            ComunicacaoOutDTO outDTO = mapper.paraComunicacaoOutDTO(entity);
+            return outDTO;
+    }
+
+    //modificacao do metodo agendarComunicacaoProjetoOriginal() para agendarComunicacao() usando o try-catch
     public ComunicacaoOutDTO agendarComunicacao(ComunicacaoInDTO dto){
         try{
-            if (Objects.isNull(dto)) {
-                throw new MissingArgumentException("Dados da comunicacao sao obrigatorios");
-            }
-                dto.setStatusEnvio(StatusEnvioEnum.PENDENTE);
-                dto.setModoDeEnvio(ModoEnvioEnum.EMAIL);
-                dto.setDataHoraEnvio(Date.from(Instant.now()));
-                ComunicacaoEntity entity = mapper.paraComunicacaoEntity(dto);
-                repository.save(entity);
-                ComunicacaoOutDTO outDTO = mapper.paraComunicacaoOutDTO(entity);
-                return outDTO;
-        } catch (ConflictException e) {
-            throw new ConflictException("Dados de comunicacao ja existentes", e);
+            notNull(dto, "Dados obrigatorios");
+            dto.setStatusEnvio(StatusEnvioEnum.PENDENTE);
+            dto.setModoDeEnvio(ModoEnvioEnum.EMAIL);
+            dto.setDataHoraEnvio(Date.from(Instant.now()));
+            ComunicacaoEntity entity = mapper.paraComunicacaoEntity(dto);
+            repository.save(entity);
+            ComunicacaoOutDTO outDTO = mapper.paraComunicacaoOutDTO(entity);
+            return outDTO;
+        } catch (final Exception e) {
+            throw new BusinessException("Erro ao agendar comunicacao", e);
         }
     }
 
-    public ComunicacaoOutDTO agendarComunicacao2(ComunicacaoInDTO dto){
-        try{
-            notNull(dto, "Dados da comunicacao sao obrigatorios");
-            try{
-                dto.setStatusEnvio(StatusEnvioEnum.PENDENTE);
-                dto.setModoDeEnvio(ModoEnvioEnum.EMAIL);
-                dto.setDataHoraEnvio(Date.from(Instant.now()));
-                ComunicacaoEntity entity = mapper.paraComunicacaoEntity(dto);
-                repository.save(entity);
-                ComunicacaoOutDTO outDTO = mapper.paraComunicacaoOutDTO(entity);
-                return outDTO;
-            } catch (ConflictException e) {
-                throw new ConflictException("Dados de comunicacao ja existentes", e);
-            }
-        } catch (java.lang.IllegalArgumentException e) {
-            throw new IllegalArgumentException("Dados da comunicacao sao obrigatorios", e);
-        }
+
+//agendarComunicacao2() ----> eu nao sei se isso eh logico, eu quero dizer colocar o notNull fora do try-catch <-----
+//os testes nao passaram, eu nao sei qual classe de excecao chamar para o notNull(dto), quando esta fora do try-catch, e nao se pode colocar
+//o if porque esse metodo retorna um void e nao boolean
+public ComunicacaoOutDTO agendarComunicacao2(ComunicacaoInDTO dto){
+    notNull(dto, "Dados da comunicacao sao obrigatorios");
+    try{
+        dto.setStatusEnvio(StatusEnvioEnum.PENDENTE);
+        dto.setModoDeEnvio(ModoEnvioEnum.EMAIL);
+        dto.setDataHoraEnvio(Date.from(Instant.now()));
+        ComunicacaoEntity entity = mapper.paraComunicacaoEntity(dto);
+        repository.save(entity);
+        ComunicacaoOutDTO outDTO = mapper.paraComunicacaoOutDTO(entity);
+        return outDTO;
+    } catch (BusinessException e) {
+        throw new BusinessException("Erro ao salvar dados da comunicacao", e);
     }
+}
+
 
     public ComunicacaoOutDTO buscarStatusComunicacao(String emailDestinatario) {
         ComunicacaoEntity entity = repository.findByEmailDestinatario(emailDestinatario);
-        if (Objects.isNull(entity.getEmailDestinatario())) {
+        if (isNull(entity.getEmailDestinatario())) {
             throw new ResourceNotFoundException("Email nao encontrado" + emailDestinatario);
         }
         return mapper.paraComunicacaoOutDTO(entity);
@@ -91,13 +105,15 @@ public class ComunicacaoService {
 
     public ComunicacaoOutDTO alterarStatusComunicacao(String emailDestinatario) {
         ComunicacaoEntity entity = repository.findByEmailDestinatario(emailDestinatario);
-        if (Objects.isNull(entity)) {
+        if (isNull(entity)) {
             throw new ResourceNotFoundException("Email nao encontrado" + emailDestinatario);
         }
         entity.setStatusEnvio(StatusEnvioEnum.ALTERADO);
         repository.save(entity);
         return mapper.paraComunicacaoOutDTO(entity);
     }
+
+    //Methods deletarComunicacaoPorEmail e deletarComunicacaoPorId
 
     public void deletarComunicacao(Long id) {
         ComunicacaoEntity entity = repository.findById(id).orElseThrow(() ->
@@ -112,18 +128,18 @@ public class ComunicacaoService {
        } catch (ResourceNotFoundException e) {
            throw new ResourceNotFoundException("Email nao encontrado", e);
        }
-
     }
 
     public ComunicacaoOutDTO updateDadosComunicacao(ComunicacaoInDTO comunicacaoInDTO, Long id) {
         ComunicacaoEntity entity = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Id " +
                 "nao encontrado: " + id));
         comunicacaoInDTO.setStatusEnvio(StatusEnvioEnum.ALTERADO);
-        //Fazer metodo se a pessoa quiser alterar a forma de envio
         ComunicacaoEntity entity1 = updateMapper.updateComunicacao(comunicacaoInDTO, entity);
         return mapper.paraComunicacaoOutDTO(repository.save(entity1));
     }
 
+
+//method implementaEmailComunicacao usando emailClient FeignClient
     public void implementaEmailComunicacao(ComunicacaoInDTO comunicacaoInDTO){
         try{
             emailClient.enviaEmail(comunicacaoInDTO);
@@ -132,5 +148,15 @@ public class ComunicacaoService {
             throw new EmailException("Erro ao enviar email" + e);
         }
     }
+
+
+
+
+
+
+
+
+
+
 
 }

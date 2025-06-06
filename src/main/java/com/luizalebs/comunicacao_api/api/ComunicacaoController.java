@@ -26,7 +26,7 @@ public class ComunicacaoController {
     @ApiResponse(responseCode = "409", description = "cliente ja cadastrado")
     @ApiResponse(responseCode = "500", description = "erro de servidor")
     public ResponseEntity<ComunicacaoOutDTO> agendar(@RequestBody ComunicacaoInDTO dto)  {
-        return ResponseEntity.ok(service.agendarComunicacao(dto));
+        return ResponseEntity.ok(service.agendarComunicacao2(dto));
     }
 
     @GetMapping()
