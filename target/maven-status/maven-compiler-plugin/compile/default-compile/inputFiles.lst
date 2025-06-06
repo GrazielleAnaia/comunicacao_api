@@ -19,3 +19,4 @@ C:\Users\grazi\challenge\comunicacao_api\src\main\java\com\luizalebs\comunicacao
 C:\Users\grazi\challenge\comunicacao_api\src\main\java\com\luizalebs\comunicacao_api\api\ComunicacaoController.java
 C:\Users\grazi\challenge\comunicacao_api\src\main\java\com\luizalebs\comunicacao_api\business\converter\ComunicacaoMapper.java
 C:\Users\grazi\challenge\comunicacao_api\src\main\java\com\luizalebs\comunicacao_api\infraestructure\exceptions\ResourceNotFoundException.java
+C:\Users\grazi\challenge\comunicacao_api\src\main\java\com\luizalebs\comunicacao_api\infraestructure\exceptions\IllegalArgumentException.java

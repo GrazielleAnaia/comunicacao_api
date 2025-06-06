@@ -1,0 +1,11 @@
+-------------------------------------------------------------------------------
+Test set: com.luizalebs.comunicacao_api.api.ComunicacaoControllerTest
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.578 s <<< FAILURE! - in com.luizalebs.comunicacao_api.api.ComunicacaoControllerTest
+deveAgendarComunicacao  Time elapsed: 0.454 s  <<< ERROR!
+org.mockito.exceptions.base.MockitoException: 
+
+Cannot mock/spy class org.springframework.test.web.servlet.MockMvc
+Mockito cannot mock/spy because :
+ - final class
+

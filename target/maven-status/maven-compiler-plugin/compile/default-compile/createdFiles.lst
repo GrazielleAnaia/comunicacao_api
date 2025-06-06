@@ -14,6 +14,7 @@ com\luizalebs\comunicacao_api\api\dto\ComunicacaoInDTO.class
 com\luizalebs\comunicacao_api\infraestructure\exceptions\ResourceNotFoundException.class
 com\luizalebs\comunicacao_api\api\dto\ComunicacaoInDTO$ComunicacaoInDTOBuilder.class
 com\luizalebs\comunicacao_api\infraestructure\exceptions\ConflictException.class
+com\luizalebs\comunicacao_api\infraestructure\exceptions\IllegalArgumentException.class
 com\luizalebs\comunicacao_api\business\converter\ComunicacaoMapper.class
 com\luizalebs\comunicacao_api\infraestructure\exceptions\MissingArgumentException.class
 com\luizalebs\comunicacao_api\infraestructure\config\FeignError.class

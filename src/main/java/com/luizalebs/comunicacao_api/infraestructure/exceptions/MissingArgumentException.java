@@ -8,4 +8,8 @@ public class MissingArgumentException extends RuntimeException{
     public MissingArgumentException(String mensagem, Throwable throwable) {
         super(mensagem, throwable);
     }
+
+    public MissingArgumentException(Throwable cause){
+        super(cause);
+    }
 }

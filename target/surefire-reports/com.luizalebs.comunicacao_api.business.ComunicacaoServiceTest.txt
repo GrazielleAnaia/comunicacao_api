@@ -1,11 +1,36 @@
 -------------------------------------------------------------------------------
 Test set: com.luizalebs.comunicacao_api.business.ComunicacaoServiceTest
 -------------------------------------------------------------------------------
-Tests run: 5, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.786 s <<< FAILURE! - in com.luizalebs.comunicacao_api.business.ComunicacaoServiceTest
-deveNaoAgendarComunicacaoSeDadosNull  Time elapsed: 0.007 s  <<< FAILURE!
-org.opentest4j.AssertionFailedError: Unexpected exception type thrown, expected: <com.luizalebs.comunicacao_api.infraestructure.exceptions.MissingArgumentException> but was: <java.lang.IllegalArgumentException>
-	at com.luizalebs.comunicacao_api.business.ComunicacaoServiceTest.deveNaoAgendarComunicacaoSeDadosNull(ComunicacaoServiceTest.java:121)
+Tests run: 16, Failures: 4, Errors: 1, Skipped: 0, Time elapsed: 0.362 s <<< FAILURE! - in com.luizalebs.comunicacao_api.business.ComunicacaoServiceTest
+deveGerarExcecaoAoBuscarStatusNaoEncontrado  Time elapsed: 0.006 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: Unexpected exception type thrown, expected: <com.luizalebs.comunicacao_api.infraestructure.exceptions.ResourceNotFoundException> but was: <java.lang.NullPointerException>
+	at com.luizalebs.comunicacao_api.business.ComunicacaoServiceTest.deveGerarExcecaoAoBuscarStatusNaoEncontrado(ComunicacaoServiceTest.java:166)
+Caused by: java.lang.NullPointerException: Cannot invoke "com.luizalebs.comunicacao_api.infraestructure.entities.ComunicacaoEntity.getEmailDestinatario()" because "entity" is null
+	at com.luizalebs.comunicacao_api.business.ComunicacaoServiceTest.lambda$deveGerarExcecaoAoBuscarStatusNaoEncontrado$5(ComunicacaoServiceTest.java:166)
+	at com.luizalebs.comunicacao_api.business.ComunicacaoServiceTest.deveGerarExcecaoAoBuscarStatusNaoEncontrado(ComunicacaoServiceTest.java:166)
+
+geraExcecao_QuandoDtoNull_AgendarComunicacaoProjetoOriginal  Time elapsed: 0.006 s  <<< ERROR!
+java.lang.NullPointerException: Cannot invoke "Object.getClass()" because the return value of "java.lang.RuntimeException.getCause()" is null
+	at com.luizalebs.comunicacao_api.business.ComunicacaoServiceTest.geraExcecao_QuandoDtoNull_AgendarComunicacaoProjetoOriginal(ComunicacaoServiceTest.java:207)
+
+alteraStatusComunicacao_testeThrownException  Time elapsed: 0.004 s  <<< FAILURE!
+java.lang.AssertionError: 
+
+Expected: is "Email nao encontrado"
+     but: was "Email nao encontradonull"
+	at com.luizalebs.comunicacao_api.business.ComunicacaoServiceTest.alteraStatusComunicacao_testeThrownException(ComunicacaoServiceTest.java:177)
+
+deveGerarExcecao_QuandoFalharAoSalvar_AgendarComunicacao2  Time elapsed: 0.003 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: Unexpected exception type thrown, expected: <com.luizalebs.comunicacao_api.infraestructure.exceptions.BusinessException> but was: <com.luizalebs.comunicacao_api.infraestructure.exceptions.ConflictException>
+	at com.luizalebs.comunicacao_api.business.ComunicacaoServiceTest.deveGerarExcecao_QuandoFalharAoSalvar_AgendarComunicacao2(ComunicacaoServiceTest.java:253)
+Caused by: com.luizalebs.comunicacao_api.infraestructure.exceptions.ConflictException: Excecao
+	at com.luizalebs.comunicacao_api.business.ComunicacaoServiceTest.lambda$deveGerarExcecao_QuandoFalharAoSalvar_AgendarComunicacao2$10(ComunicacaoServiceTest.java:253)
+	at com.luizalebs.comunicacao_api.business.ComunicacaoServiceTest.deveGerarExcecao_QuandoFalharAoSalvar_AgendarComunicacao2(ComunicacaoServiceTest.java:253)
+
+geraExcecao_QuandoAgendarComunicacao2_SeDtoNull  Time elapsed: 0.002 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: Unexpected exception type thrown, expected: <com.luizalebs.comunicacao_api.infraestructure.exceptions.BusinessException> but was: <java.lang.IllegalArgumentException>
+	at com.luizalebs.comunicacao_api.business.ComunicacaoServiceTest.geraExcecao_QuandoAgendarComunicacao2_SeDtoNull(ComunicacaoServiceTest.java:268)
 Caused by: java.lang.IllegalArgumentException: Dados da comunicacao sao obrigatorios
-	at com.luizalebs.comunicacao_api.business.ComunicacaoServiceTest.lambda$deveNaoAgendarComunicacaoSeDadosNull$2(ComunicacaoServiceTest.java:122)
-	at com.luizalebs.comunicacao_api.business.ComunicacaoServiceTest.deveNaoAgendarComunicacaoSeDadosNull(ComunicacaoServiceTest.java:121)
+	at com.luizalebs.comunicacao_api.business.ComunicacaoServiceTest.lambda$geraExcecao_QuandoAgendarComunicacao2_SeDtoNull$11(ComunicacaoServiceTest.java:269)
+	at com.luizalebs.comunicacao_api.business.ComunicacaoServiceTest.geraExcecao_QuandoAgendarComunicacao2_SeDtoNull(ComunicacaoServiceTest.java:268)
 

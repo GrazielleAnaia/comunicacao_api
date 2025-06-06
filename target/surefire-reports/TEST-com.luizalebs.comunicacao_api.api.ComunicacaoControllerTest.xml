@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="com.luizalebs.comunicacao_api.ComunicacaoApiApplicationTests" time="6.648" tests="1" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="com.luizalebs.comunicacao_api.api.ComunicacaoControllerTest" time="0.578" tests="1" errors="1" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="17"/>
     <property name="sun.cpu.isalist" value="amd64"/>
@@ -57,5 +57,12 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="61.0"/>
   </properties>
-  <testcase name="contextLoads" classname="com.luizalebs.comunicacao_api.ComunicacaoApiApplicationTests" time="0.024"/>
+  <testcase name="deveAgendarComunicacao" classname="com.luizalebs.comunicacao_api.api.ComunicacaoControllerTest" time="0.454">
+    <error message="&#10;Cannot mock/spy class org.springframework.test.web.servlet.MockMvc&#10;Mockito cannot mock/spy because :&#10; - final class" type="org.mockito.exceptions.base.MockitoException">org.mockito.exceptions.base.MockitoException: 
+
+Cannot mock/spy class org.springframework.test.web.servlet.MockMvc
+Mockito cannot mock/spy because :
+ - final class
+</error>
+  </testcase>
 </testsuite>
