@@ -102,7 +102,7 @@ public ComunicacaoOutDTO agendarComunicacao2(ComunicacaoInDTO dto){
         }
     }
 
-
+//----------------------------------------------------------------------------------------------------------------
     public ComunicacaoOutDTO alterarStatusComunicacao(String emailDestinatario) {
         ComunicacaoEntity entity = repository.findByEmailDestinatario(emailDestinatario);
         if (isNull(entity)) {
@@ -140,7 +140,7 @@ public ComunicacaoOutDTO agendarComunicacao2(ComunicacaoInDTO dto){
 
 
 //method implementaEmailComunicacao usando emailClient FeignClient
-    public void implementaEmailComunicacao(ComunicacaoInDTO comunicacaoInDTO){
+    public void implementarEmailComunicacao(ComunicacaoInDTO comunicacaoInDTO){
         try{
             emailClient.enviaEmail(comunicacaoInDTO);
             comunicacaoInDTO.setStatusEnvio(StatusEnvioEnum.ENVIADO);

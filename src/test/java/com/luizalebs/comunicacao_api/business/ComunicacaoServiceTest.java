@@ -1,5 +1,6 @@
 package com.luizalebs.comunicacao_api.business;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.luizalebs.comunicacao_api.api.dto.ComunicacaoInDTO;
 import com.luizalebs.comunicacao_api.api.dto.ComunicacaoInDTOFixture;
 import com.luizalebs.comunicacao_api.api.dto.ComunicacaoOutDTO;
@@ -16,9 +17,12 @@ import com.luizalebs.comunicacao_api.infraestructure.exceptions.MissingArgumentE
 import com.luizalebs.comunicacao_api.infraestructure.exceptions.ResourceNotFoundException;
 import com.luizalebs.comunicacao_api.infraestructure.repositories.ComunicacaoRepository;
 import org.hibernate.annotations.Comment;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mapstruct.factory.Mappers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -39,7 +43,8 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 
 public class ComunicacaoServiceTest {
-
+@Mock
+    EmailClient emailClient;
     @InjectMocks
     ComunicacaoService comunicacaoService;
 
@@ -49,14 +54,16 @@ public class ComunicacaoServiceTest {
     ComunicacaoMapper comunicacaoMapper;
     @Mock
     ComunicacaoUpdateMapper comunicacaoUpdateMapper;
-    @Mock
-    EmailClient emailClient;
+//    @Mock
+//    EmailClient emailClient;
     @Mock
     ComunicacaoInDTO comunicacaoInDTO;
     @Mock
     ComunicacaoOutDTO comunicacaoOutDTO;
     @Mock
     ComunicacaoEntity comunicacaoEntity;
+
+
 
 
     private static final Date DATA_HORA_ENVIO = new Date(2025, 05, 29);
@@ -68,6 +75,8 @@ public class ComunicacaoServiceTest {
 
     @BeforeEach
     public void setup() {
+
+       // emailClient = Mappers.getMapper(EmailClient.class);
 
         comunicacaoEntity = ComunicacaoEntity.builder().id(123L).dataHoraEvento(DATA_HORA_EVENTO).dataHoraEnvio(DATA_HORA_ENVIO).emailDestinatario(
                         "mensagem@email.com").modoDeEnvio(MODO_DE_ENVIO).statusEnvio(STATUS_ENVIO).telefoneDestinatario("303-568-5178")
@@ -143,6 +152,19 @@ public void geraExcecao_Quando_AlterarStatusComunicacao() {
     verifyNoMoreInteractions(comunicacaoRepository);
 }
 
+@DisplayName("Test exception")
+@Test
+public void gerarExcecao_Quando_alterarStatsuComunicacao2() {
+        when(comunicacaoRepository.findByEmailDestinatario(email)).thenThrow(new ResourceNotFoundException("failed"));
+        ResourceNotFoundException e = assertThrows(ResourceNotFoundException.class, () ->
+                comunicacaoService.alterarStatusComunicacao(null));
+        assertThat(e, notNullValue());
+        assertThat(e.getCause().getClass(), is(ResourceNotFoundException.class));
+        assertThat(e.getCause().getMessage(), is("Email nao encontrado" + null));
+        verify(comunicacaoRepository).findByEmailDestinatario(email);
+        verifyNoMoreInteractions(comunicacaoRepository);
+        verifyNoInteractions(comunicacaoMapper);
+}
     //------------------------------agendarComunicacao()----------------------------------------------------------------------------------------------------------------------
     //Abaixo seguem as modificacoes para o method agendarComunicacao() para fazer passar na excecao
     //Test para agendarComunicacaoProjetoOriginal()
@@ -269,10 +291,13 @@ public void geraExcecao_Quando_AlterarStatusComunicacao() {
         Throwable throwable = assertThrows(ResourceNotFoundException.class, () -> comunicacaoService.deletarComunicacao(id));
         assertEquals("Id mensagem nao encontrado: " + id, throwable.getMessage());
     }
-
-
 //--------------------------------------------------------------------------------------------------------------------------------------------
-
+@DisplayName("method implementaEmailComunicacao()")
+    @Test
+    public void deveImplementarEmailComunicacao_ComSucesso() {
+       doNothing().when(emailClient).enviaEmail(comunicacaoInDTO);
+        comunicacaoService.implementarEmailComunicacao(comunicacaoInDTO);
+}
 
 
 

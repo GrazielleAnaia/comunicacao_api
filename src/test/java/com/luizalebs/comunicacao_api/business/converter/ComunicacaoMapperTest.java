@@ -52,7 +52,8 @@ public class ComunicacaoMapperTest {
 
     @Test
     public void converteParaComunicacaoOutDTO() {
-        ComunicacaoOutDTO comunicacaoDTO = comunicacaoMapper.paraComunicacaoOutDTO(comunicacaoEntity);
+        ComunicacaoOutDTO comunicacaoDTO;
+        comunicacaoDTO = comunicacaoMapper.paraComunicacaoOutDTO(comunicacaoEntity);
         assertEquals(comunicacaoDTO, comunicacaoOutDTO);
     }
 
