@@ -39,11 +39,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 public class ComunicacaoControllerTest {
 
+
+    private MockMvc mockMvc;
 @InjectMocks
     ComunicacaoController controller;
 
-@Mock
-    private MockMvc mockMvc;
 @Mock
 private final ObjectMapper objectMapper = new ObjectMapper();
 @Mock

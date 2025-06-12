@@ -12,14 +12,14 @@ import static org.junit.jupiter.api.Assertions.*;
 public class ResourceNotFoundExceptionTest {
 
 
-//    @Test
-//    void testExceptionCause() {
-//        ResourceNotFoundException exception = assertThrows(ResourceNotFoundException.class,
-//                () -> {throw new ResourceNotFoundException("Wrapper", new IllegalArgumentException("Cause"));});
-//
-//        Throwable cause = exception.getCause();
-//        assertNotNull(cause);
-//        assertInstanceOf(IllegalArgumentException.class, cause);
-//        assertEquals("Cause", cause.getMessage());
-//    }
+    @Test
+    void testExceptionCause() {
+        ResourceNotFoundException exception = assertThrows(ResourceNotFoundException.class,
+                () -> {throw new ResourceNotFoundException("Wrapper", new IllegalArgumentException("Cause"));});
+
+        Throwable cause = exception.getCause();
+        assertNotNull(cause);
+        assertInstanceOf(IllegalArgumentException.class, cause);
+        assertEquals("Cause", cause.getMessage());
+    }
 }
