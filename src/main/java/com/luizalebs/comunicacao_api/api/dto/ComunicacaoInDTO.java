@@ -29,7 +29,7 @@ public class ComunicacaoInDTO implements Serializable {
     private String telefoneDestinatario;
     private String mensagem;
     private ModoEnvioEnum modoDeEnvio;
-    @JsonIgnore
+   // @JsonIgnore
     private StatusEnvioEnum statusEnvio;
 
 }

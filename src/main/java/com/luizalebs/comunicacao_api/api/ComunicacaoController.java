@@ -26,7 +26,7 @@ public class ComunicacaoController {
     @ApiResponse(responseCode = "409", description = "cliente ja cadastrado")
     @ApiResponse(responseCode = "500", description = "erro de servidor")
     public ResponseEntity<ComunicacaoOutDTO> agendar(@RequestBody ComunicacaoInDTO dto)  {
-        return ResponseEntity.ok(service.agendarComunicacao2(dto));
+        return ResponseEntity.ok(service.agendarComunicacao(dto));
     }
 
     @GetMapping()
@@ -34,7 +34,7 @@ public class ComunicacaoController {
     @ApiResponse(responseCode = "200", description = "mensagem encontrada com sucesso")
     @ApiResponse(responseCode = "404", description = "email do destinario nao encontrado")
     @ApiResponse(responseCode = "500", description = "erro de servidor")
-    public ResponseEntity<ComunicacaoOutDTO> buscarStatus(@RequestParam ("emailDestinatario")String emailDestinatario) {
+    public ResponseEntity<ComunicacaoOutDTO> buscarStatus(@RequestParam ("emailDestinatario") String emailDestinatario) {
         return ResponseEntity.ok(service.buscarStatusComunicacao(emailDestinatario));
     }
 
@@ -77,4 +77,4 @@ public class ComunicacaoController {
         return ResponseEntity.ok().build();
     }
 
-        }
+}
