@@ -53,10 +53,11 @@ public class ComunicacaoService {
     public ComunicacaoOutDTO agendarComunicacao(ComunicacaoInDTO dto){
         try{
             notNull(dto, "Dados obrigatorios");
+
+            ComunicacaoEntity entity = mapper.paraComunicacaoEntity(dto);
             dto.setStatusEnvio(StatusEnvioEnum.PENDENTE);
             dto.setModoDeEnvio(ModoEnvioEnum.EMAIL);
             dto.setDataHoraEnvio(Date.from(Instant.now()));
-            ComunicacaoEntity entity = mapper.paraComunicacaoEntity(dto);
             repository.save(entity);
             ComunicacaoOutDTO outDTO = mapper.paraComunicacaoOutDTO(entity);
             return outDTO;

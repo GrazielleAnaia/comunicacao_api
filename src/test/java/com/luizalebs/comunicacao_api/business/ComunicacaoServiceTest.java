@@ -91,7 +91,7 @@ public class ComunicacaoServiceTest {
 
     //----------------------------------------------------------------------------------------------------------------------------
     @Test
-    public void deveBuscarStatusComunicacao_ComSucesso() {
+    public void deve_QuandoBuscarStatusComunicacao_ComSucesso() {
         when(comunicacaoRepository.findByEmailDestinatario(email)).thenReturn(comunicacaoEntity);
         when(comunicacaoMapper.paraComunicacaoOutDTO(comunicacaoEntity)).thenReturn(comunicacaoOutDTO);
         ComunicacaoOutDTO outDTO = comunicacaoService.buscarStatusComunicacao(email);
