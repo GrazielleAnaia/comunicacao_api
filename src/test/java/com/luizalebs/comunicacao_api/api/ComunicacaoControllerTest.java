@@ -8,6 +8,7 @@ import com.luizalebs.comunicacao_api.api.dto.ComunicacaoInDTOFixture;
 import com.luizalebs.comunicacao_api.api.dto.ComunicacaoOutDTO;
 import com.luizalebs.comunicacao_api.api.dto.ComunicacaoOutDTOFixture;
 import com.luizalebs.comunicacao_api.business.ComunicacaoService;
+import com.luizalebs.comunicacao_api.infraestructure.client.EmailClient;
 import com.luizalebs.comunicacao_api.infraestructure.enums.ModoEnvioEnum;
 import com.luizalebs.comunicacao_api.infraestructure.enums.StatusEnvioEnum;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,7 +29,6 @@ import static com.luizalebs.comunicacao_api.infraestructure.enums.StatusEnvioEnu
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(MockitoExtension.class)
@@ -44,6 +44,8 @@ public class ComunicacaoControllerTest {
     private final ObjectMapper objectMapper = new ObjectMapper();
     @Mock
     ComunicacaoService service;
+    @Mock
+    EmailClient client;
     @Mock
     ComunicacaoOutDTO comunicacaoOutDTO;
     @Mock
@@ -158,6 +160,7 @@ public class ComunicacaoControllerTest {
         verifyNoMoreInteractions(service);
     }
 
+
     @DisplayName("method updateDadosComunicacao()")
     @Test
     void deve_UpdateComunicacao() throws Exception {
@@ -173,4 +176,16 @@ public class ComunicacaoControllerTest {
     }
 
 
+    @DisplayName("method enviarEmailComunicacao()")
+    @Test
+    void deve_EnviarEmailComunicacao() throws Exception {
+        doNothing().when(service).implementarEmailComunicacao(comunicacaoInDTO);
+        mockMvc.perform(post(url + "/email")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .content(json))
+                .andExpect(status().isOk());
+       verify(service).implementarEmailComunicacao(comunicacaoInDTO);
+       verifyNoMoreInteractions(service);
+    }
 }
