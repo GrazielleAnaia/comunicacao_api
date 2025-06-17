@@ -10,6 +10,7 @@ import com.luizalebs.comunicacao_api.infraestructure.enums.ModoEnvioEnum;
 import com.luizalebs.comunicacao_api.infraestructure.enums.StatusEnvioEnum;
 import com.luizalebs.comunicacao_api.infraestructure.exceptions.BusinessException;
 import com.luizalebs.comunicacao_api.infraestructure.exceptions.EmailException;
+import com.luizalebs.comunicacao_api.infraestructure.exceptions.IllegalArgumentException;
 import com.luizalebs.comunicacao_api.infraestructure.exceptions.ResourceNotFoundException;
 import com.luizalebs.comunicacao_api.infraestructure.repositories.ComunicacaoRepository;
 import lombok.RequiredArgsConstructor;
@@ -140,13 +141,16 @@ public ComunicacaoOutDTO agendarComunicacao2(ComunicacaoInDTO dto){
     }
 
 
-//method implementaEmailComunicacao usando emailClient FeignClient
-    public void implementarEmailComunicacao(ComunicacaoInDTO comunicacaoInDTO){
+
+    public void implementaComunicacaoPorEmail(ComunicacaoInDTO comunicacaoInDTO) {
+        if(comunicacaoInDTO == null) {
+            throw new IllegalArgumentException("required");
+        }
         try{
             emailClient.enviaEmail(comunicacaoInDTO);
             comunicacaoInDTO.setStatusEnvio(StatusEnvioEnum.ENVIADO);
-        } catch (EmailException e) {
-            throw new EmailException("Erro ao enviar email" + e);
+        } catch(Exception e) {
+            throw new EmailException("Erro ao enviar email", e);
         }
     }
 

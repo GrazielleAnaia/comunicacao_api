@@ -160,7 +160,6 @@ public class ComunicacaoControllerTest {
         verifyNoMoreInteractions(service);
     }
 
-
     @DisplayName("method updateDadosComunicacao()")
     @Test
     void deve_UpdateComunicacao() throws Exception {
@@ -179,13 +178,13 @@ public class ComunicacaoControllerTest {
     @DisplayName("method enviarEmailComunicacao()")
     @Test
     void deve_EnviarEmailComunicacao() throws Exception {
-        doNothing().when(service).implementarEmailComunicacao(comunicacaoInDTO);
+        doNothing().when(service).implementaComunicacaoPorEmail(comunicacaoInDTO);
         mockMvc.perform(post(url + "/email")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
                         .content(json))
                 .andExpect(status().isOk());
-       verify(service).implementarEmailComunicacao(comunicacaoInDTO);
+       verify(service).implementaComunicacaoPorEmail(comunicacaoInDTO);
        verifyNoMoreInteractions(service);
     }
 }
