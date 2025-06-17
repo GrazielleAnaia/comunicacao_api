@@ -6,6 +6,9 @@ public class EmailException extends RuntimeException {
         super(mensagem);
     }
 
+    public EmailException() {}
+
+
     public EmailException(String mensagem, Throwable throwable) {
         super(mensagem, throwable);
     }

@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.luizalebs.comunicacao_api.api.ComunicacaoControllerTest
+-------------------------------------------------------------------------------
+Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.938 s - in com.luizalebs.comunicacao_api.api.ComunicacaoControllerTest

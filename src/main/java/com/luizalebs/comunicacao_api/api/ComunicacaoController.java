@@ -73,7 +73,7 @@ public class ComunicacaoController {
     @ApiResponse(responseCode = "500", description = "erro de servidor")
     @ApiResponse(responseCode = "503", description = "servico nao disponivel")
     public ResponseEntity<Void>enviarEmailComunicacao(@RequestBody ComunicacaoInDTO dto) {
-        service.implementarEmailComunicacao(dto);
+        service.implementaComunicacaoPorEmail(dto);
         return ResponseEntity.ok().build();
     }
 

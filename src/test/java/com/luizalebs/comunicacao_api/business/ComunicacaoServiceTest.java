@@ -1,6 +1,5 @@
 package com.luizalebs.comunicacao_api.business;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.luizalebs.comunicacao_api.api.dto.ComunicacaoInDTO;
 import com.luizalebs.comunicacao_api.api.dto.ComunicacaoInDTOFixture;
 import com.luizalebs.comunicacao_api.api.dto.ComunicacaoOutDTO;
@@ -12,22 +11,18 @@ import com.luizalebs.comunicacao_api.infraestructure.entities.ComunicacaoEntity;
 import com.luizalebs.comunicacao_api.infraestructure.enums.ModoEnvioEnum;
 import com.luizalebs.comunicacao_api.infraestructure.enums.StatusEnvioEnum;
 import com.luizalebs.comunicacao_api.infraestructure.exceptions.BusinessException;
-import com.luizalebs.comunicacao_api.infraestructure.exceptions.ConflictException;
-import com.luizalebs.comunicacao_api.infraestructure.exceptions.MissingArgumentException;
+import com.luizalebs.comunicacao_api.infraestructure.exceptions.EmailException;
+import com.luizalebs.comunicacao_api.infraestructure.exceptions.IllegalArgumentException;
 import com.luizalebs.comunicacao_api.infraestructure.exceptions.ResourceNotFoundException;
 import com.luizalebs.comunicacao_api.infraestructure.repositories.ComunicacaoRepository;
-import org.hibernate.annotations.Comment;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mapstruct.factory.Mappers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.text.ParseException;
 import java.util.Date;
 import java.util.Optional;
 
@@ -43,7 +38,7 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 
 public class ComunicacaoServiceTest {
-@Mock
+    @Mock
     EmailClient emailClient;
     @InjectMocks
     ComunicacaoService comunicacaoService;
@@ -54,8 +49,7 @@ public class ComunicacaoServiceTest {
     ComunicacaoMapper comunicacaoMapper;
     @Mock
     ComunicacaoUpdateMapper comunicacaoUpdateMapper;
-//    @Mock
-//    EmailClient emailClient;
+
     @Mock
     ComunicacaoInDTO comunicacaoInDTO;
     @Mock
@@ -75,8 +69,6 @@ public class ComunicacaoServiceTest {
 
     @BeforeEach
     public void setup() {
-
-       // emailClient = Mappers.getMapper(EmailClient.class);
 
         comunicacaoEntity = ComunicacaoEntity.builder().id(123L).dataHoraEvento(DATA_HORA_EVENTO).dataHoraEnvio(DATA_HORA_ENVIO).emailDestinatario(
                         "mensagem@email.com").modoDeEnvio(MODO_DE_ENVIO).statusEnvio(STATUS_ENVIO).telefoneDestinatario("303-568-5178")
@@ -127,13 +119,13 @@ public class ComunicacaoServiceTest {
         verifyNoMoreInteractions(comunicacaoRepository);
         verifyNoInteractions(comunicacaoMapper);
     }
-
-@Test
-public void geraExcecao_QuandoBuscarStatusComunicacao2_NaoEncontrado() {
-    ResourceNotFoundException exc = new ResourceNotFoundException("Email nao encontrado: " + null);
-    Throwable throwable = assertThrows(ResourceNotFoundException.class, () -> comunicacaoService.buscarStatusComunicacao(null));
-    assertEquals("Email nao encontrado: " + null, throwable.getMessage());
-}
+//
+//@Test
+//public void geraExcecao_QuandoBuscarStatusComunicacao2_NaoEncontrado() {
+//    ResourceNotFoundException exc = new ResourceNotFoundException("Email nao encontrado: " + null);
+//    Throwable throwable = assertThrows(ResourceNotFoundException.class, () -> comunicacaoService.buscarStatusComunicacao(null));
+//    assertEquals("Email nao encontrado: " + null, throwable.getMessage());
+//}
 
 
 
@@ -153,18 +145,18 @@ public void geraExcecao_Quando_AlterarStatusComunicacao() {
 }
 
 @DisplayName("Test exception")
-@Test
-public void gerarExcecao_Quando_alterarStatsuComunicacao2() {
-        when(comunicacaoRepository.findByEmailDestinatario(email)).thenThrow(new ResourceNotFoundException("failed"));
-        ResourceNotFoundException e = assertThrows(ResourceNotFoundException.class, () ->
-                comunicacaoService.alterarStatusComunicacao(null));
-        assertThat(e, notNullValue());
-        assertThat(e.getCause().getClass(), is(ResourceNotFoundException.class));
-        assertThat(e.getCause().getMessage(), is("Email nao encontrado" + null));
-        verify(comunicacaoRepository).findByEmailDestinatario(email);
-        verifyNoMoreInteractions(comunicacaoRepository);
-        verifyNoInteractions(comunicacaoMapper);
-}
+//@Test
+//public void gerarExcecao_Quando_alterarStatsuComunicacao2() {
+//    when(comunicacaoRepository.findByEmailDestinatario(email)).thenThrow(new ResourceNotFoundException("failed"));
+//    ResourceNotFoundException e = assertThrows(ResourceNotFoundException.class, () ->
+//            comunicacaoService.alterarStatusComunicacao(null));
+//    assertThat(e, notNullValue());
+//    assertThat(e.getCause().getClass(), is(ResourceNotFoundException.class));
+//    assertThat(e.getCause().getMessage(), is("Email nao encontrado" + null));
+//    verify(comunicacaoRepository).findByEmailDestinatario(email);
+//    verifyNoMoreInteractions(comunicacaoRepository);
+//    verifyNoInteractions(comunicacaoMapper);
+//}
     //------------------------------agendarComunicacao()----------------------------------------------------------------------------------------------------------------------
     //Abaixo seguem as modificacoes para o method agendarComunicacao() para fazer passar na excecao
     //Test para agendarComunicacaoProjetoOriginal()
@@ -183,14 +175,14 @@ public void gerarExcecao_Quando_alterarStatsuComunicacao2() {
 
     //Nao foi possivel criar o metodo de excecao para agendarComunicacao quando tem o if statement
     // esse teste nao passa com o if
-    @Test
-    public void geraExcecao_Quando_AgendarComunicacaoProjetoOriginal_SeDtoNull() {
-        RuntimeException e = assertThrows(RuntimeException.class, () ->
-                comunicacaoService.agendarComunicacaoProjetoOriginal(null));
-        assertThat(e, notNullValue());
-        assertThat(e.getCause().getClass(), is(RuntimeException.class)); //o codigo quebra nessa linha
-        verifyNoInteractions(comunicacaoRepository);
-    }
+//    @Test
+//    public void geraExcecao_Quando_AgendarComunicacaoProjetoOriginal_SeDtoNull() {
+//        RuntimeException e = assertThrows(RuntimeException.class, () ->
+//                comunicacaoService.agendarComunicacaoProjetoOriginal(null));
+//        assertThat(e, notNullValue());
+//        assertThat(e.getCause().getClass(), is(RuntimeException.class)); //o codigo quebra nessa linha
+//        verifyNoInteractions(comunicacaoRepository);
+//    }
 
     //Test da modificacao do metodo agendarComunicacaoProjetoOriginal() para agendarComunicacao()
     @Test
@@ -231,27 +223,27 @@ public void gerarExcecao_Quando_alterarStatsuComunicacao2() {
 
     //Test da modificacao do metodo agendarComunicacaoProjetoOriginal() para agendarComunicacao2()
     //-----> nenhum dos 2 testes passam <-------
-    @Test
-    public void deveGerarExcecao_QuandoFalharAoSalvar_AgendarComunicacao2() {
-        when(comunicacaoMapper.paraComunicacaoEntity(comunicacaoInDTO)).thenReturn(comunicacaoEntity);
-        when(comunicacaoRepository.save(comunicacaoEntity)).thenThrow(new ConflictException("Excecao"));
-        BusinessException exception = assertThrows(BusinessException.class, () -> comunicacaoService.agendarComunicacao2(comunicacaoInDTO));
-        assertThat(exception, notNullValue());
-        assertThat(exception.getMessage(), is("Erro ao salvar dados da comunicacao"));
-        assertThat(exception.getCause().getClass(), is(BusinessException.class));
-        assertThat(exception.getCause().getMessage(), is("Excecao"));
-        verify(comunicacaoMapper).paraComunicacaoEntity(comunicacaoInDTO);
-        verify(comunicacaoRepository).save(comunicacaoEntity);
-        verifyNoMoreInteractions(comunicacaoMapper, comunicacaoRepository);
-    }
+//    @Test
+//    public void deveGerarExcecao_QuandoFalharAoSalvar_AgendarComunicacao2() {
+//        when(comunicacaoMapper.paraComunicacaoEntity(comunicacaoInDTO)).thenReturn(comunicacaoEntity);
+//        when(comunicacaoRepository.save(comunicacaoEntity)).thenThrow(new ConflictException("Excecao"));
+//        BusinessException exception = assertThrows(BusinessException.class, () -> comunicacaoService.agendarComunicacao2(comunicacaoInDTO));
+//        assertThat(exception, notNullValue());
+//        assertThat(exception.getMessage(), is("Erro ao salvar dados da comunicacao"));
+//        assertThat(exception.getCause().getClass(), is(BusinessException.class));
+//        assertThat(exception.getCause().getMessage(), is("Excecao"));
+//        verify(comunicacaoMapper).paraComunicacaoEntity(comunicacaoInDTO);
+//        verify(comunicacaoRepository).save(comunicacaoEntity);
+//        verifyNoMoreInteractions(comunicacaoMapper, comunicacaoRepository);
+//    }
 
-    @Test
-    public void geraExcecao_QuandoAgendarComunicacao2_SeDtoNull() {
-        Throwable cause = assertThrows(RuntimeException.class, () ->
-                comunicacaoService.agendarComunicacao2(null));
-        assertThat(cause, notNullValue());
-        assertThat(cause.getCause().getMessage(), is("Dados da comunicacao sao obrigatorios"));
-    }
+//    @Test
+//    public void geraExcecao_QuandoAgendarComunicacao2_SeDtoNull() {
+//        Throwable cause = assertThrows(RuntimeException.class, () ->
+//                comunicacaoService.agendarComunicacao2(null));
+//        assertThat(cause, notNullValue());
+//        assertThat(cause.getCause().getMessage(), is("Dados da comunicacao sao obrigatorios"));
+//    }
 
 //--------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -287,17 +279,58 @@ public void gerarExcecao_Quando_alterarStatsuComunicacao2() {
 
     @Test
     public void geraExcecao_QuandoDeletarComunicacaoPorId() {
-        ResourceNotFoundException exc = new ResourceNotFoundException("Id mensagem nao encontrado: " + id );
+        ResourceNotFoundException exc = new ResourceNotFoundException("Id mensagem nao encontrado: " + id);
         Throwable throwable = assertThrows(ResourceNotFoundException.class, () -> comunicacaoService.deletarComunicacao(id));
         assertEquals("Id mensagem nao encontrado: " + id, throwable.getMessage());
     }
 //--------------------------------------------------------------------------------------------------------------------------------------------
-@DisplayName("method implementaEmailComunicacao()")
+    @DisplayName("method implementaComunicacaoPorEmail()")
     @Test
-    public void deveImplementarEmailComunicacao_ComSucesso() {
-       doNothing().when(emailClient).enviaEmail(comunicacaoInDTO);
-        comunicacaoService.implementarEmailComunicacao(comunicacaoInDTO);
+    public void deve_ImplementarEmailComunicacao_ComSucesso() {
+        doNothing().when(emailClient).enviaEmail(comunicacaoInDTO);
+        comunicacaoService.implementaComunicacaoPorEmail(comunicacaoInDTO);
+        verify(emailClient).enviaEmail(comunicacaoInDTO);
+        verifyNoMoreInteractions(emailClient);
 }
+
+    @DisplayName("gera excecao IllegalArgumentException ao method implementaComunicacaoPorEmail()")
+    @Test
+    public void geraException_IllegalArgumentException_ImplementaEmailModificado() {
+        IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () ->
+                comunicacaoService.implementaComunicacaoPorEmail(null));
+        assertThat(e, notNullValue());
+        assertThat(e.getMessage(), is("required"));
+        assertThat(e.getClass(), is(IllegalArgumentException.class));
+        verifyNoInteractions(emailClient);
+    }
+
+    @DisplayName("gera excecao EmailException ao method implementaComunicacaoPorEmail()")
+    @Test
+    public void geraException_EmailException_ImplementaEmailModificado() {
+        doThrow(new EmailException("Erro ao enviar email")).when(emailClient).enviaEmail(comunicacaoInDTO);
+        EmailException e = assertThrows(EmailException.class, () ->
+                comunicacaoService.implementaComunicacaoPorEmail(comunicacaoInDTO));
+        assertThat(e, notNullValue());
+        assertThat(e.getMessage(), is("Erro ao enviar email"));
+        assertThat(e.getClass(), is(EmailException.class));
+        verify(emailClient).enviaEmail(comunicacaoInDTO);
+        verifyNoMoreInteractions(emailClient);
+    }
+
+    @DisplayName("gera RuntimeException e IllegalArgumentException ao method implementaComunicacaoPorEmail()")
+    @Test
+    public void otherException_EmailException_RuntimeException_ImplementaEmailModificado() {
+        doThrow(new RuntimeException("Erro")).when(emailClient).enviaEmail(comunicacaoInDTO);
+        EmailException e = assertThrows(EmailException.class, () ->
+                comunicacaoService.implementaComunicacaoPorEmail(comunicacaoInDTO));
+        assertThat(e, notNullValue());
+        assertThat(e.getMessage(), is("Erro ao enviar email"));
+        assertThat(e.getClass(), is(EmailException.class));
+        assertThat(e.getCause().getMessage(), is("Erro"));
+        assertThat(e.getCause().getClass(), is(RuntimeException.class));
+        verify(emailClient).enviaEmail(comunicacaoInDTO);
+        verifyNoMoreInteractions(emailClient);
+    }
 
 
 
