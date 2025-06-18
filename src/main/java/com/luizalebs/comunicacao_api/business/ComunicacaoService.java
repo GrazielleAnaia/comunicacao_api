@@ -20,7 +20,6 @@ import java.time.Instant;
 import java.util.Date;
 import java.util.Objects;
 
-import static java.util.Objects.isNull;
 import static org.springframework.util.Assert.notNull;
 
 @Service
@@ -68,9 +67,6 @@ public class ComunicacaoService {
     }
 
 
-//agendarComunicacao2() ----> eu nao sei se isso eh logico, eu quero dizer colocar o notNull fora do try-catch <-----
-//os testes nao passaram, eu nao sei qual classe de excecao chamar para o notNull(dto), quando esta fora do try-catch, e nao se pode colocar
-//o if porque esse metodo retorna um void e nao boolean
 public ComunicacaoOutDTO agendarComunicacao2(ComunicacaoInDTO dto){
     notNull(dto, "Dados da comunicacao sao obrigatorios");
     try{
@@ -81,21 +77,29 @@ public ComunicacaoOutDTO agendarComunicacao2(ComunicacaoInDTO dto){
         repository.save(entity);
         ComunicacaoOutDTO outDTO = mapper.paraComunicacaoOutDTO(entity);
         return outDTO;
-    } catch (BusinessException e) {
+    } catch (Exception e) {
         throw new BusinessException("Erro ao salvar dados da comunicacao", e);
     }
 }
 
+public ComunicacaoOutDTO agendarComunicacaoModificado(ComunicacaoInDTO dto) {
+        if(dto == null) {
+            throw new IllegalArgumentException("dados obrigatorios");
+        }
+        try{
+            dto.setStatusEnvio(StatusEnvioEnum.PENDENTE);
+            dto.setModoDeEnvio(ModoEnvioEnum.EMAIL);
+            dto.setDataHoraEnvio(Date.from(Instant.now()));
+            ComunicacaoEntity entity = mapper.paraComunicacaoEntity(dto);
+           return mapper.paraComunicacaoOutDTO(repository.save(entity));
+
+        } catch(BusinessException e) {
+            throw new BusinessException("Erro ao salvar comunicacao", e);
+        }
+
+}
 
     public ComunicacaoOutDTO buscarStatusComunicacao(String emailDestinatario) {
-        ComunicacaoEntity entity = repository.findByEmailDestinatario(emailDestinatario);
-        if (isNull(entity.getEmailDestinatario())) {
-            throw new ResourceNotFoundException("Email nao encontrado" + emailDestinatario);
-        }
-        return mapper.paraComunicacaoOutDTO(entity);
-    }
-
-    public ComunicacaoOutDTO buscarStatusComunicacao2(String emailDestinatario) {
         try{
             ComunicacaoEntity entity = repository.findByEmailDestinatario(emailDestinatario);
             return mapper.paraComunicacaoOutDTO(entity);
@@ -104,16 +108,29 @@ public ComunicacaoOutDTO agendarComunicacao2(ComunicacaoInDTO dto){
         }
     }
 
-//----------------------------------------------------------------------------------------------------------------
+
     public ComunicacaoOutDTO alterarStatusComunicacao(String emailDestinatario) {
-        ComunicacaoEntity entity = repository.findByEmailDestinatario(emailDestinatario);
-        if (isNull(entity)) {
-            throw new ResourceNotFoundException("Email nao encontrado" + emailDestinatario);
+        try{
+            ComunicacaoEntity entity = repository.findByEmailDestinatario(emailDestinatario);
+            entity.setStatusEnvio(StatusEnvioEnum.ALTERADO);
+            return mapper.paraComunicacaoOutDTO(repository.save(entity));
+        } catch(Exception e) {
+            throw new ResourceNotFoundException("Email obrigatorio", e);
         }
-        entity.setStatusEnvio(StatusEnvioEnum.ALTERADO);
-        repository.save(entity);
-        return mapper.paraComunicacaoOutDTO(entity);
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     //Methods deletarComunicacaoPorEmail e deletarComunicacaoPorId
 
@@ -141,7 +158,6 @@ public ComunicacaoOutDTO agendarComunicacao2(ComunicacaoInDTO dto){
     }
 
 
-
     public void implementaComunicacaoPorEmail(ComunicacaoInDTO comunicacaoInDTO) {
         if(comunicacaoInDTO == null) {
             throw new IllegalArgumentException("required");
@@ -153,15 +169,4 @@ public ComunicacaoOutDTO agendarComunicacao2(ComunicacaoInDTO dto){
             throw new EmailException("Erro ao enviar email", e);
         }
     }
-
-
-
-
-
-
-
-
-
-
-
 }
