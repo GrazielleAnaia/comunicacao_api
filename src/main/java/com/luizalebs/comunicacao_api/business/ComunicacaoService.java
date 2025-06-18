@@ -108,7 +108,6 @@ public ComunicacaoOutDTO agendarComunicacaoModificado(ComunicacaoInDTO dto) {
         }
     }
 
-
     public ComunicacaoOutDTO alterarStatusComunicacao(String emailDestinatario) {
         try{
             ComunicacaoEntity entity = repository.findByEmailDestinatario(emailDestinatario);
@@ -119,21 +118,7 @@ public ComunicacaoOutDTO agendarComunicacaoModificado(ComunicacaoInDTO dto) {
         }
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
     //Methods deletarComunicacaoPorEmail e deletarComunicacaoPorId
-
     public void deletarComunicacao(Long id) {
         ComunicacaoEntity entity = repository.findById(id).orElseThrow(() ->
                 new ResourceNotFoundException("Id mensagem nao encontrado: " + id));
