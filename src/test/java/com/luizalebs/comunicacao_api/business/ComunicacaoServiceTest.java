@@ -297,14 +297,6 @@ public class ComunicacaoServiceTest {
         verifyNoMoreInteractions(comunicacaoMapper, comunicacaoRepository);
     }
 
-//    @Test
-//    public void geraExcecao_QuandoAgendarComunicacao2_SeDtoNull() {
-//        BusinessException cause = assertThrows(BusinessException.class, () ->
-//                comunicacaoService.agendarComunicacao2(null));
-//        assertThat(cause, notNullValue());
-//        assertThat(cause.getCause().getMessage(), is("Dados da comunicacao sao obrigatorios"));
-//    }
-
     @DisplayName("deve implementaComunicacaoPorEmail() com sucesso")
     @Test
     public void deve_ImplementarEmailComunicacao_ComSucesso() {

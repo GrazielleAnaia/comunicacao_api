@@ -3,6 +3,7 @@ package com.luizalebs.comunicacao_api.api;
 
 import com.luizalebs.comunicacao_api.infraestructure.exceptions.ConflictException;
 import com.luizalebs.comunicacao_api.infraestructure.exceptions.EmailException;
+import com.luizalebs.comunicacao_api.infraestructure.exceptions.IllegalArgumentException;
 import com.luizalebs.comunicacao_api.infraestructure.exceptions.MissingArgumentException;
 import com.luizalebs.comunicacao_api.infraestructure.exceptions.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -33,5 +34,10 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> handleConflictException(ConflictException e) {
     return new ResponseEntity(e.getMessage(), HttpStatus.CONFLICT);
 }
+
+@ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException e) {
+    return new ResponseEntity(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 
 }

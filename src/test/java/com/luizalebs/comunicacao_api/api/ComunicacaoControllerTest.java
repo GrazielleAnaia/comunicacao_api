@@ -33,7 +33,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @ExtendWith(MockitoExtension.class)
 
-//@AutoConfigureMockMvc
 public class ComunicacaoControllerTest {
 
     private MockMvc mockMvc;
@@ -77,20 +76,20 @@ public class ComunicacaoControllerTest {
     }
 
 
-    @DisplayName("method agendarComunicacao()")
+    @DisplayName("method agendarComunicacaoModificado()")
     @Test
     void deve_AgendarComunicacao() throws Exception {
-        when(service.agendarComunicacao(comunicacaoInDTO)).thenReturn(comunicacaoOutDTO);
+        when(service.agendarComunicacaoModificado(comunicacaoInDTO)).thenReturn(comunicacaoOutDTO);
         mockMvc.perform(post(url + "/agendar")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
                         .content(json))
                 .andExpect(status().isOk());
-        verify(service).agendarComunicacao(comunicacaoInDTO);
+        verify(service).agendarComunicacaoModificado(comunicacaoInDTO);
         verifyNoMoreInteractions(service);
     }
 
-    @DisplayName("method agendarComunicacao()")
+    @DisplayName("method agendarComunicacaoModificado()")
     @Test
     void naoDeve_AgendarComunicacao_SeDtoNull() throws Exception {
         mockMvc.perform(post(url + "/agendar")
