@@ -55,7 +55,7 @@ Este endpoint acessa e api externa de envio de email usando como parametro a men
 O quinto endpoint e o PUT /comunicacao
 Este endpoint atualiza os dados da comunicacao atraves do id da mensagem.
 
-O sexto endpoint e o DELETE /comunicaco/{id}
+O sexto endpoint e o DELETE /comunicacao/{id}
 Esse endpoint deleta no banco de dados atraves do id da mensagem. 
 
 Basta que o parâmetro email do usuário seja fornecido para que o status do Envio seja automaticamente substituído por CANCELADO.
