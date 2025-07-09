@@ -36,8 +36,6 @@ public class ComunicacaoService {
     private final EmailClient emailClient;
 
 
-
-    //method agendarComunicacaoProjetoOriginal()
     public ComunicacaoOutDTO agendarComunicacaoProjetoOriginal(ComunicacaoInDTO dto) {
         if (Objects.isNull(dto)) {
             throw new RuntimeException();
@@ -49,11 +47,9 @@ public class ComunicacaoService {
             return outDTO;
     }
 
-    //modificacao do metodo agendarComunicacaoProjetoOriginal() para agendarComunicacao() usando o try-catch
     public ComunicacaoOutDTO agendarComunicacao(ComunicacaoInDTO dto){
         try{
             notNull(dto, "Dados obrigatorios");
-
             ComunicacaoEntity entity = mapper.paraComunicacaoEntity(dto);
             dto.setStatusEnvio(StatusEnvioEnum.PENDENTE);
             dto.setModoDeEnvio(ModoEnvioEnum.EMAIL);
@@ -108,7 +104,6 @@ public ComunicacaoOutDTO agendarComunicacaoModificado(ComunicacaoInDTO dto) {
         }
     }
 
-
     public ComunicacaoOutDTO alterarStatusComunicacao(String emailDestinatario) {
         try{
             ComunicacaoEntity entity = repository.findByEmailDestinatario(emailDestinatario);
@@ -119,21 +114,7 @@ public ComunicacaoOutDTO agendarComunicacaoModificado(ComunicacaoInDTO dto) {
         }
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
     //Methods deletarComunicacaoPorEmail e deletarComunicacaoPorId
-
     public void deletarComunicacao(Long id) {
         ComunicacaoEntity entity = repository.findById(id).orElseThrow(() ->
                 new ResourceNotFoundException("Id mensagem nao encontrado: " + id));

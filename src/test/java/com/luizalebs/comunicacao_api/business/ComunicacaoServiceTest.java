@@ -76,7 +76,7 @@ public class ComunicacaoServiceTest {
                 "303-568-5178", "mensagem", MODO_DE_ENVIO, STATUS_ENVIO);
     }
 
-    @DisplayName("bucarStatusComunicacao() com sucesso")
+    @DisplayName("deve bucarStatusComunicacao() com sucesso")
     @Test
     public void deve_BuscarStatusComunicacao_ComSucesso() {
         when(comunicacaoRepository.findByEmailDestinatario(email)).thenReturn(comunicacaoEntity);
@@ -116,6 +116,7 @@ public class ComunicacaoServiceTest {
         verifyNoMoreInteractions(comunicacaoRepository);
         verifyNoInteractions(comunicacaoMapper);
     }
+
     @DisplayName("deve alterarStatusComunicacao() com sucesso")
     @Test
     public void deve_AlterarStatusComunicacao_ComSucesso() {
@@ -145,7 +146,6 @@ public class ComunicacaoServiceTest {
         verifyNoMoreInteractions(comunicacaoRepository);
         verifyNoInteractions(comunicacaoMapper);
 }
-
 
     @DisplayName("deve deletarComunicacao() usando o id com sucesso")
     @Test
@@ -279,7 +279,6 @@ public class ComunicacaoServiceTest {
         assertThat(e.getCause().getMessage(), is("Falha ao salvar comunicacao"));
         verify(comunicacaoRepository).save(comunicacaoEntity);
         verifyNoMoreInteractions(comunicacaoRepository, comunicacaoMapper);
-
     }
 
     @DisplayName("gera ConflictException, BusinessException ao agendarComunicacao2() se falhar ao salvar")
@@ -297,14 +296,6 @@ public class ComunicacaoServiceTest {
         verify(comunicacaoRepository).save(comunicacaoEntity);
         verifyNoMoreInteractions(comunicacaoMapper, comunicacaoRepository);
     }
-
-//    @Test
-//    public void geraExcecao_QuandoAgendarComunicacao2_SeDtoNull() {
-//        BusinessException cause = assertThrows(BusinessException.class, () ->
-//                comunicacaoService.agendarComunicacao2(null));
-//        assertThat(cause, notNullValue());
-//        assertThat(cause.getCause().getMessage(), is("Dados da comunicacao sao obrigatorios"));
-//    }
 
     @DisplayName("deve implementaComunicacaoPorEmail() com sucesso")
     @Test
@@ -393,7 +384,6 @@ public class ComunicacaoServiceTest {
         verify(comunicacaoMapper).paraComunicacaoEntity(comunicacaoInDTO);
         verify(comunicacaoRepository).save(comunicacaoEntity);
         verifyNoMoreInteractions(comunicacaoMapper, comunicacaoRepository);
-
     }
 
 
