@@ -35,7 +35,7 @@ O primeiro endpoint a ser testado deve ser o POST /comunicacao/agendar
 
 No Swagger há a informação de todos os dados necessários para que ocorra o agendamento da comunicação. São eles:
 
-{ "dataHOraEvento: "yyyy-MM-dd HH:mm:ss", "dataHoraEnvio": "yyyy-MM-dd HH:mm:ss", "emailDestinatario": "string", "mensagem": "string", "modoDeEnvio": "EMAIL", "nomeDestinatario": "string", "telefoneDestinatario": "string" }
+{ "dataHoraEvento: "yyyy-MM-dd HH:mm:ss", "dataHoraEnvio": "yyyy-MM-dd HH:mm:ss", "emailDestinatario": "string", "mensagem": "string", "modoDeEnvio": "EMAIL", "nomeDestinatario": "string", "telefoneDestinatario": "string" }
 
 Não é necessário informar o Status do Agendamento, este é automaticamente preenchido como PENDENTE.
 
