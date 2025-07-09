@@ -7,6 +7,7 @@ import lombok.Getter;
 @Getter
 public enum StatusEnvioEnum {
     PENDENTE,
+    ALTERADO,
     ENVIADO,
     CANCELADO;
 }

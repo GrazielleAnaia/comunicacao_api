@@ -64,4 +64,3 @@ Não é necessário Token para testar a aplicação.
 
 Por fim, foram realizados testes de unidade nas três principais classes da aplicação = Service, Converter e Controller.
 
-Após, basta ir até a Classe de Teste escolhida e startar a classe.

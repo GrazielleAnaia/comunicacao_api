@@ -1,7 +1,10 @@
 package com.luizalebs.comunicacao_api.api;
 
 
+import com.luizalebs.comunicacao_api.infraestructure.exceptions.ConflictException;
+import com.luizalebs.comunicacao_api.infraestructure.exceptions.EmailException;
 import com.luizalebs.comunicacao_api.infraestructure.exceptions.IllegalArgumentException;
+import com.luizalebs.comunicacao_api.infraestructure.exceptions.MissingArgumentException;
 import com.luizalebs.comunicacao_api.infraestructure.exceptions.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,9 +21,23 @@ public class GlobalExceptionHandler {
 
 }
 
-@ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException e) {
+@ExceptionHandler(MissingArgumentException.class)
+    public ResponseEntity<String> handleMissingArgumentException(MissingArgumentException e) {
     return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
 }
+
+@ExceptionHandler(EmailException.class)
+    public ResponseEntity<String> handleEmailException(EmailException e) {
+    return new ResponseEntity(e.getMessage(), HttpStatus.SERVICE_UNAVAILABLE);
+}
+@ExceptionHandler(ConflictException.class)
+    public ResponseEntity<String> handleConflictException(ConflictException e) {
+    return new ResponseEntity(e.getMessage(), HttpStatus.CONFLICT);
+}
+
+@ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException e) {
+    return new ResponseEntity(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 
 }
